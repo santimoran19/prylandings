@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terrazza — Cocina de autor en Córdoba</title>
+<meta name="description" content="Restaurante de cocina de autor en Nueva Córdoba. Menú de estación, carta de vinos de altura y reservas online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&amp;family=Jost:wght@200;300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --negro:#0E0E0F;
+    --carbon:#161618;
+    --carbon-2:#1E1E21;
+    --oro:#C6A15B;
+    --oro-claro:#E3C88C;
+    --hueso:#F4F1EA;
+    --gris:#8E8A82;
+    --linea:rgba(198,161,91,.22);
+    --sombra:0 30px 70px -30px rgba(0,0,0,.85);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Jost',system-ui,sans-serif;font-weight:300;
+    background:var(--negro);color:var(--hueso);line-height:1.75;overflow-x:hidden;
+  }
+  h1,h2,h3,h4,.display{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;line-height:1.12;letter-spacing:.005em}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:min(1200px,90vw);margin:0 auto}
+  .eyebrow{
+    font-size:.72rem;letter-spacing:.4em;text-transform:uppercase;color:var(--oro);
+    display:flex;align-items:center;gap:.9rem;margin-bottom:1.3rem;font-weight:400;
+  }
+  .eyebrow::before{content:'';width:34px;height:1px;background:var(--oro)}
+  .eyebrow.centro{justify-content:center}
+  .eyebrow.centro::after{content:'';width:34px;height:1px;background:var(--oro)}
+  .btn{
+    display:inline-flex;align-items:center;gap:.7rem;padding:1.05rem 2.4rem;
+    font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;font-weight:400;
+    border:1px solid var(--oro);cursor:pointer;position:relative;overflow:hidden;
+    transition:color .4s,border-color .4s;background:none;color:var(--oro);font-family:inherit;
+  }
+  .btn::before{
+    content:'';position:absolute;inset:0;background:var(--oro);
+    transform:scaleX(0);transform-origin:right;transition:transform .45s cubic-bezier(.7,0,.2,1);z-index:-1;
+  }
+  .btn:hover{color:var(--negro)}
+  .btn:hover::before{transform:scaleX(1);transform-origin:left}
+  .btn span{position:relative;z-index:1}
+  .btn-solido{background:var(--oro);color:var(--negro);border-color:var(--oro)}
+  .btn-solido::before{background:var(--oro-claro)}
+  .btn-solido:hover{color:var(--negro)}
+
+  /* ---------- NAV ---------- */
+  header.nav{position:fixed;inset:0 0 auto 0;z-index:100;padding:1.6rem 0;transition:.45s}
+  header.nav.solid{background:rgba(14,14,15,.94);backdrop-filter:blur(16px);padding:.9rem 0;border-bottom:1px solid var(--linea)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;gap:2rem}
+  .logo{font-family:'Cormorant Garamond',serif;font-size:1.75rem;letter-spacing:.32em;text-transform:uppercase;color:var(--hueso)}
+  .logo b{color:var(--oro);font-weight:400}
+  .nav-links{display:flex;gap:2.6rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase}
+  .nav-links a{color:var(--gris);transition:color .3s;position:relative;padding:.3rem 0}
+  .nav-links a::after{content:'';position:absolute;left:50%;bottom:0;width:0;height:1px;background:var(--oro);transition:.35s;transform:translateX(-50%)}
+  .nav-links a:hover{color:var(--hueso)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{padding:.75rem 1.7rem;font-size:.68rem}
+  .burger{display:none;background:none;border:0;flex-direction:column;gap:6px;padding:.4rem;cursor:pointer}
+  .burger span{width:26px;height:1px;background:var(--hueso);transition:.35s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;height:100svh;min-height:660px;display:grid;place-items:center;text-align:center;overflow:hidden}
+  .hero-bg{position:absolute;inset:0}
+  .hero-bg svg{width:100%;height:100%}
+  .hero-bg::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(14,14,15,.72) 0%,rgba(14,14,15,.55) 45%,rgba(14,14,15,.96) 100%);
+  }
+  .hero-in{position:relative;z-index:2;padding:0 1.5rem}
+  .hero h1{font-size:clamp(3.4rem,9vw,7rem);letter-spacing:.02em;margin-bottom:1.4rem}
+  .hero h1 i{font-style:italic;color:var(--oro)}
+  .hero .sub{font-size:.78rem;letter-spacing:.46em;text-transform:uppercase;color:var(--gris);margin-bottom:2.6rem}
+  .hero p{max-width:52ch;margin:0 auto 3rem;color:rgba(244,241,234,.72);font-size:1.05rem}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .scroll-hint{
+    position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);z-index:2;
+    font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gris);
+    display:flex;flex-direction:column;align-items:center;gap:.8rem;
+  }
+  .scroll-hint::after{content:'';width:1px;height:52px;background:linear-gradient(var(--oro),transparent);animation:baja 2.4s ease-in-out infinite}
+  @keyframes baja{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+  /* ---------- SECCIONES ---------- */
+  section{padding:8rem 0;position:relative}
+  .sec-head{max-width:660px;margin-bottom:4.5rem}
+  .sec-head.centro{margin-inline:auto;text-align:center}
+  .sec-head h2{font-size:clamp(2.4rem,5vw,4rem);margin-bottom:1.2rem}
+  .sec-head h2 i{font-style:italic;color:var(--oro)}
+  .sec-head p{color:var(--gris);font-size:1.02rem}
+
+  /* ---------- FILOSOFIA ---------- */
+  .filosofia{background:var(--carbon)}
+  .fil-grid{display:grid;grid-template-columns:1fr 1fr;gap:5.5rem;align-items:center}
+  .fil-art{position:relative;aspect-ratio:.9;overflow:hidden;box-shadow:var(--sombra)}
+  .fil-art svg{width:100%;height:100%}
+  .fil-art::after{content:'';position:absolute;inset:16px;border:1px solid rgba(198,161,91,.32);pointer-events:none}
+  .fil-texto p{color:var(--gris);margin-bottom:1.3rem}
+  .fil-datos{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.8rem;padding-top:2.4rem;border-top:1px solid var(--linea)}
+  .fil-datos .n{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--oro);display:block;line-height:1}
+  .fil-datos .t{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gris)}
+
+  /* ---------- MENU ---------- */
+  .menu-nav{display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin-bottom:4rem;border-bottom:1px solid var(--linea)}
+  .m-tab{
+    background:none;border:0;border-bottom:1px solid transparent;margin-bottom:-1px;
+    padding:1rem 2rem;font-family:'Cormorant Garamond',serif;font-size:1.32rem;
+    color:var(--gris);cursor:pointer;transition:.35s;
+  }
+  .m-tab:hover{color:var(--hueso)}
+  .m-tab.activo{color:var(--oro);border-bottom-color:var(--oro)}
+  .m-panel{display:none}
+  .m-panel.activo{display:block;animation:fade .5s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .platos{display:grid;grid-template-columns:1fr 1fr;gap:0 5rem}
+  .plato{padding:1.7rem 0;border-bottom:1px solid rgba(142,138,130,.16)}
+  .plato-top{display:flex;align-items:baseline;gap:1rem}
+  .plato h4{font-size:1.42rem;white-space:nowrap}
+  .plato .puntos{flex:1;border-bottom:1px dotted rgba(142,138,130,.4);transform:translateY(-4px)}
+  .plato .precio{font-family:'Cormorant Garamond',serif;font-size:1.42rem;color:var(--oro)}
+  .plato p{font-size:.9rem;color:var(--gris);margin-top:.35rem;max-width:46ch}
+  .marca{
+    display:inline-block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--oro);border:1px solid var(--linea);padding:.15rem .5rem;margin-left:.7rem;
+    vertical-align:middle;white-space:nowrap;
+  }
+  .menu-nota{text-align:center;margin-top:3.5rem;color:var(--gris);font-size:.9rem;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1.1rem}
+
+  /* ---------- DEGUSTACION ---------- */
+  .degustacion{background:linear-gradient(160deg,var(--carbon-2),var(--negro));position:relative;overflow:hidden}
+  .degustacion::before{
+    content:'';position:absolute;width:640px;height:640px;border-radius:50%;
+    background:radial-gradient(circle,rgba(198,161,91,.12),transparent 70%);top:-260px;left:-180px;
+  }
+  .deg-caja{
+    max-width:820px;margin:0 auto;text-align:center;padding:4.5rem 3rem;
+    border:1px solid var(--linea);position:relative;background:rgba(14,14,15,.5);
+  }
+  .deg-caja h2{font-size:clamp(2.2rem,4.5vw,3.4rem);margin-bottom:1rem}
+  .deg-precio{font-family:'Cormorant Garamond',serif;font-size:3.6rem;color:var(--oro);line-height:1;margin:1.6rem 0 .4rem}
+  .deg-precio small{font-size:1rem;color:var(--gris);display:block;letter-spacing:.2em;text-transform:uppercase;margin-top:.6rem}
+  .deg-pasos{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem 2rem;margin:2.4rem 0;color:var(--gris);font-size:.86rem;letter-spacing:.1em}
+  .deg-pasos span{position:relative}
+  .deg-pasos span+span::before{content:'·';position:absolute;left:-1.1rem;color:var(--oro)}
+
+  /* ---------- CHEF ---------- */
+  .chef{background:var(--carbon)}
+  .chef-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:5.5rem;align-items:center}
+  .chef-art{aspect-ratio:.86;overflow:hidden;box-shadow:var(--sombra);position:relative}
+  .chef-art svg{width:100%;height:100%}
+  .chef blockquote{
+    font-family:'Cormorant Garamond',serif;font-size:1.72rem;font-style:italic;
+    line-height:1.5;color:var(--hueso);margin:2rem 0;padding-left:1.8rem;border-left:1px solid var(--oro);
+  }
+  .chef .nombre{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--oro)}
+  .chef .rol{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gris);margin-top:.3rem}
+
+  /* ---------- GALERIA ---------- */
+  .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+  .gal-item{position:relative;overflow:hidden;aspect-ratio:1}
+  .gal-item.alto{grid-row:span 2;aspect-ratio:auto}
+  .gal-item svg{width:100%;height:100%;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .gal-item:hover svg{transform:scale(1.07)}
+  .gal-item figcaption{
+    position:absolute;left:0;right:0;bottom:0;padding:1.4rem;
+    background:linear-gradient(transparent,rgba(14,14,15,.92));
+    font-family:'Cormorant Garamond',serif;font-size:1.2rem;
+    transform:translateY(12px);opacity:0;transition:.45s;
+  }
+  .gal-item:hover figcaption{transform:none;opacity:1}
+
+  /* ---------- RESERVA ---------- */
+  .reserva{background:var(--carbon-2)}
+  .res-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:5rem;align-items:start}
+  .form-res{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+  .campo{display:flex;flex-direction:column;gap:.55rem}
+  .campo.full{grid-column:1/-1}
+  .campo label{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--oro)}
+  .campo input,.campo select,.campo textarea{
+    background:transparent;border:0;border-bottom:1px solid rgba(142,138,130,.34);
+    padding:.75rem 0;color:var(--hueso);font-family:inherit;font-size:.98rem;font-weight:300;
+    transition:border-color .35s;
+  }
+  .campo input:focus,.campo select:focus,.campo textarea:focus{outline:0;border-bottom-color:var(--oro)}
+  .campo select option{background:var(--carbon)}
+  .campo textarea{resize:vertical;min-height:76px}
+  .form-res .btn{grid-column:1/-1;justify-content:center;margin-top:.8rem}
+  .form-nota{grid-column:1/-1;font-size:.8rem;color:var(--gris);text-align:center}
+  .datos-res{display:flex;flex-direction:column;gap:2.2rem}
+  .dato-res h4{font-size:1.5rem;margin-bottom:.5rem;color:var(--oro)}
+  .dato-res p,.dato-res li{color:var(--gris);font-size:.96rem}
+  .dato-res ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+  .dato-res li{display:flex;justify-content:space-between;max-width:340px;border-bottom:1px solid rgba(142,138,130,.12);padding:.5rem 0}
+  .aviso{
+    border:1px solid var(--linea);padding:1.5rem;font-size:.88rem;color:var(--gris);
+    font-family:'Cormorant Garamond',serif;font-size:1.06rem;font-style:italic;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--negro);border-top:1px solid var(--linea);padding:5rem 0 2.2rem}
+  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:3rem;margin-bottom:3.5rem}
+  footer h5{font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--oro);margin-bottom:1.4rem;font-weight:400}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:.7rem;color:var(--gris);font-size:.92rem}
+  footer a:hover{color:var(--oro)}
+  .foot-logo{font-family:'Cormorant Garamond',serif;font-size:1.9rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.2rem}
+  .foot-logo b{color:var(--oro);font-weight:400}
+  .foot-bot{border-top:1px solid rgba(142,138,130,.14);padding-top:1.8rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;color:var(--gris);font-size:.78rem;letter-spacing:.06em}
+  .redes{display:flex;gap:1.4rem}
+  .redes a{color:var(--gris);transition:.3s}
+  .redes a:hover{color:var(--oro);transform:translateY(-2px)}
+
+  /* ---------- REVEAL ---------- */
+  .rev{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+  .rev.visible{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .rev{opacity:1;transform:none;transition:none}
+    .scroll-hint::after{animation:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:980px){
+    .fil-grid,.chef-grid,.res-grid{grid-template-columns:1fr;gap:3.5rem}
+    .fil-art,.chef-art{max-width:480px;margin-inline:auto;width:100%}
+    .platos{grid-template-columns:1fr;gap:0}
+    .gal{grid-template-columns:1fr 1fr}
+    .gal-item.alto{grid-row:span 1;aspect-ratio:1}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    section{padding:5rem 0}
+    .nav-links{
+      position:fixed;inset:0 0 auto 0;background:var(--negro);flex-direction:column;
+      align-items:flex-start;padding:7rem 2rem 3rem;gap:1.8rem;font-size:1rem;
+      transform:translateY(-102%);transition:transform .5s cubic-bezier(.2,.8,.2,1);
+      border-bottom:1px solid var(--linea);
+    }
+    .nav-links.abierto{transform:none}
+    .burger{display:flex}
+    .nav-cta{display:none}
+    .deg-caja{padding:3rem 1.6rem}
+  }
+  @media(max-width:560px){
+    .gal{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .form-res{grid-template-columns:1fr}
+    .fil-datos{grid-template-columns:1fr;gap:1.4rem}
+    .plato h4{white-space:normal}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a href="#" class="logo">Terra<b>zza</b></a>
+    <nav class="nav-links" id="menu">
+      <a href="#filosofia">Nosotros</a>
+      <a href="#carta">La carta</a>
+      <a href="#degustacion">Degustación</a>
+      <a href="#chef">El chef</a>
+      <a href="#galeria">Galería</a>
+      <a href="#reservas">Reservas</a>
+    </nav>
+    <a href="#reservas" class="btn nav-cta"><span>Reservar</span></a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="hero-bg">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="rh" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#26221C"/><stop offset="55%" stop-color="#14120F"/><stop offset="100%" stop-color="#0B0A09"/>
+        </linearGradient>
+        <radialGradient id="luz" cx="50%" cy="26%" r="42%">
+          <stop offset="0%" stop-color="#C6A15B" stop-opacity=".34"/>
+          <stop offset="100%" stop-color="#C6A15B" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1440" height="900" fill="url(#rh)"/>
+      <rect width="1440" height="900" fill="url(#luz)"/>
+      <!-- lamparas colgantes -->
+      <g stroke="#C6A15B" stroke-width="1.2" opacity=".5">
+        <path d="M420 0v190M720 0v140M1020 0v210"/>
+      </g>
+      <g fill="#C6A15B" opacity=".82">
+        <path d="M380 190h80l-16 40h-48z"/><circle cx="420" cy="238" r="9" opacity=".9"/>
+        <path d="M680 140h80l-16 40h-48z"/><circle cx="720" cy="188" r="9" opacity=".9"/>
+        <path d="M980 210h80l-16 40h-48z"/><circle cx="1020" cy="258" r="9" opacity=".9"/>
+      </g>
+      <g opacity=".14" fill="#C6A15B">
+        <circle cx="420" cy="250" r="90"/><circle cx="720" cy="200" r="82"/><circle cx="1020" cy="270" r="86"/>
+      </g>
+      <!-- mesa -->
+      <rect x="0" y="640" width="1440" height="260" fill="#0B0A09" opacity=".7"/>
+      <ellipse cx="720" cy="646" rx="560" ry="42" fill="#1C1913"/>
+      <g fill="#F4F1EA" opacity=".82">
+        <ellipse cx="560" cy="640" rx="66" ry="17"/><ellipse cx="560" cy="636" rx="46" ry="11" fill="#26221C"/>
+        <ellipse cx="880" cy="646" rx="66" ry="17"/><ellipse cx="880" cy="642" rx="46" ry="11" fill="#26221C"/>
+      </g>
+      <g fill="#C6A15B" opacity=".6">
+        <path d="M660 596c0 16 12 22 12 38s-12 16-12 16h24s-12 0-12-16 12-22 12-38-12-26-12-26-12 10-12 26Z"/>
+        <rect x="656" y="648" width="24" height="4" rx="2"/>
+      </g>
+      <g stroke="#F4F1EA" stroke-width="2.4" opacity=".35">
+        <path d="M480 604v42M494 604v42M960 604v42M974 604v42"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-in">
+    <div class="sub">Cocina de autor · Nueva Córdoba</div>
+    <h1>Terra<i>zza</i></h1>
+    <p>Producto de estación, fuego lento y una carta que cambia cuatro veces al año. Cocina argentina contemporánea en un edificio de 1912.</p>
+    <div class="hero-btns">
+      <a href="#reservas" class="btn btn-solido"><span>Reservar mesa</span></a>
+      <a href="#carta" class="btn"><span>Ver la carta</span></a>
+    </div>
+  </div>
+  <div class="scroll-hint">Desliza</div>
+</div>
+
+<!-- ============ FILOSOFIA ============ -->
+<section class="filosofia" id="filosofia">
+  <div class="wrap fil-grid">
+    <div class="fil-art rev">
+      <svg viewBox="0 0 500 556" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs><linearGradient id="f1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2A251E"/><stop offset="100%" stop-color="#0E0E0F"/></linearGradient></defs>
+        <rect width="500" height="556" fill="url(#f1)"/>
+        <circle cx="380" cy="120" r="150" fill="#C6A15B" opacity=".1"/>
+        <ellipse cx="250" cy="300" rx="150" ry="150" fill="#F4F1EA" opacity=".92"/>
+        <ellipse cx="250" cy="300" rx="112" ry="112" fill="#EDE8DE"/>
+        <path d="M250 224c34 0 62 22 62 52s-28 46-62 46-62-16-62-46 28-52 62-52Z" fill="#7E4B3A" opacity=".9"/>
+        <g fill="#4E6B3C" opacity=".85">
+          <ellipse cx="206" cy="336" rx="26" ry="13" transform="rotate(-18 206 336)"/>
+          <ellipse cx="292" cy="342" rx="24" ry="12" transform="rotate(22 292 342)"/>
+          <ellipse cx="250" cy="356" rx="20" ry="10"/>
+        </g>
+        <g fill="#C6A15B" opacity=".75">
+          <circle cx="224" cy="268" r="5"/><circle cx="272" cy="258" r="4"/><circle cx="252" cy="286" r="4.5"/>
+        </g>
+        <path d="M164 372q86 26 172 0" stroke="#C6A15B" stroke-width="2.4" fill="none" opacity=".5"/>
+        <rect y="470" width="500" height="86" fill="#0B0A09" opacity=".55"/>
+      </svg>
+    </div>
+    <div class="fil-texto rev">
+      <div class="eyebrow">Nuestra cocina</div>
+      <h2 style="font-size:clamp(2.2rem,4.4vw,3.4rem);margin-bottom:1.6rem">Lo que da la tierra,<br>cuando lo <i style="font-style:italic;color:var(--oro)">da</i>.</h2>
+      <p>No tenemos una carta fija. Cambiamos el menú cuatro veces al año según lo que producen los quinteros de Colonia Caroya, los pescadores del Paraná y los criadores de las sierras con los que trabajamos hace años.</p>
+      <p>Eso significa que algo que comiste en abril tal vez no esté en agosto. También significa que todo lo que servimos está en su mejor momento, no guardado en cámara desde hace meses.</p>
+      <p>La cocina es abierta. Si querés ver cómo se arma tu plato, pedí la mesa del pase: son seis lugares frente a la línea.</p>
+      <div class="fil-datos">
+        <div><span class="n">14</span><span class="t">Productores propios</span></div>
+        <div><span class="n">4</span><span class="t">Cartas por año</span></div>
+        <div><span class="n">2019</span><span class="t">Desde</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARTA ============ -->
+<section id="carta">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <div class="eyebrow centro">Otoño 2026</div>
+      <h2>La <i>carta</i></h2>
+      <p>Vigente hasta fines de agosto. Todos los platos pueden adaptarse a dietas vegetarianas o sin TACC: avisanos al reservar.</p>
+    </div>
+
+    <div class="menu-nav rev">
+      <button class="m-tab activo" data-p="entradas">Entradas</button>
+      <button class="m-tab" data-p="principales">Principales</button>
+      <button class="m-tab" data-p="postres">Postres</button>
+      <button class="m-tab" data-p="vinos">Vinos</button>
+    </div>
+
+    <div class="m-panel activo rev" id="entradas">
+      <div class="platos">
+        <div class="plato">
+          <div class="plato-top"><h4>Burrata de campo</h4><span class="puntos"></span><span class="precio">$12.400</span></div>
+          <p>Burrata fresca de Colonia Caroya, tomates asados al rescoldo, albahaca morada y aceite de oliva de San Juan.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Tartar de trucha<span class="marca">Del Paraná</span></h4><span class="puntos"></span><span class="precio">$14.900</span></div>
+          <p>Trucha curada en cítricos, palta, huevas de trucha y crocante de arroz salvaje.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Molleja al verdeo</h4><span class="puntos"></span><span class="precio">$13.800</span></div>
+          <p>Molleja sellada a la parrilla, puré de verdeo asado y reducción de limón quemado.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Calabaza en dos cocciones</h4><span class="marca">Vegetariano</span><span class="puntos"></span><span class="precio">$10.600</span></div>
+          <p>Asada y en crema, con queso de cabra de las sierras, miel de romero y semillas tostadas.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Empanada de osobuco</h4><span class="puntos"></span><span class="precio">$4.900</span></div>
+          <p>Braseada 8 horas, masa de grasa hecha en casa. Por unidad. Se pide mínimo de a dos.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Pan de masa madre</h4><span class="puntos"></span><span class="precio">$5.200</span></div>
+          <p>Nuestra masa madre de 6 años, manteca batida con sal de Maras y aceite de hierbas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-panel rev" id="principales">
+      <div class="platos">
+        <div class="plato">
+          <div class="plato-top"><h4>Ojo de bife madurado<span class="marca">21 días</span></h4><span class="puntos"></span><span class="precio">$32.500</span></div>
+          <p>400 g madurados en seco, a las brasas de quebracho. Con papas confitadas y chimichurri de la casa.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Cordero de la sierra</h4><span class="puntos"></span><span class="precio">$29.800</span></div>
+          <p>Paleta braseada 12 horas, puré rústico de papa ahumada y jugo de cocción reducido.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Risotto de hongos</h4><span class="marca">Vegetariano</span><span class="puntos"></span><span class="precio">$21.400</span></div>
+          <p>Carnaroli con hongos de pino de Traslasierra, manteca noisette y parmesano de 24 meses.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Pesca del día</h4><span class="puntos"></span><span class="precio">$27.900</span></div>
+          <p>Lo que llegó esa mañana, a la plancha, con verduras de estación y beurre blanc de cítricos.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Sorrentinos de osobuco</h4><span class="puntos"></span><span class="precio">$22.600</span></div>
+          <p>Pasta fresca del día rellena de osobuco braseado, con manteca de salvia y nuez tostada.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Cerdo de bellota</h4><span class="puntos"></span><span class="precio">$26.400</span></div>
+          <p>Bondiola cocida a baja temperatura 10 horas, glaseada en su jugo, con batata y manzana asada.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-panel rev" id="postres">
+      <div class="platos">
+        <div class="plato">
+          <div class="plato-top"><h4>Flan de la casa</h4><span class="puntos"></span><span class="precio">$8.900</span></div>
+          <p>Flan de vainilla de Madagascar, dulce de leche de tambo y crema batida a mano.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Chocolate 72%<span class="marca">Favorito</span></h4><span class="puntos"></span><span class="precio">$9.600</span></div>
+          <p>Cremoso de chocolate, crocante de cacao, helado de aceite de oliva y sal marina.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Higos y almendras</h4><span class="puntos"></span><span class="precio">$8.400</span></div>
+          <p>Higos de la sierra asados en vino tinto, crema de almendras y helado de romero.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Tabla de quesos</h4><span class="puntos"></span><span class="precio">$14.200</span></div>
+          <p>Cinco quesos de productores cordobeses, dulces caseros, nueces y pan tostado. Para compartir.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-panel rev" id="vinos">
+      <div class="platos">
+        <div class="plato">
+          <div class="plato-top"><h4>Malbec de altura</h4><span class="marca">Valle de Uco</span><span class="puntos"></span><span class="precio">$34.000</span></div>
+          <p>1.400 msnm. Fruta negra, especias y taninos firmes. También por copa, $9.500.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Cabernet Franc</h4><span class="puntos"></span><span class="precio">$41.500</span></div>
+          <p>Guarda de 18 meses en roble francés. Notas herbales y pimiento. Nuestro preferido con el cordero.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Chardonnay sin madera</h4><span class="puntos"></span><span class="precio">$28.900</span></div>
+          <p>Fresco, cítrico y mineral. Ideal para las entradas y la pesca del día. Por copa, $8.200.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Espumante método tradicional</h4><span class="puntos"></span><span class="precio">$36.800</span></div>
+          <p>24 meses sobre lías. Burbuja fina y final seco. Ideal para arrancar la noche.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Torrontés de Cafayate</h4><span class="puntos"></span><span class="precio">$24.500</span></div>
+          <p>Aromático pero seco. Va muy bien con la burrata y con los platos de calabaza.</p>
+        </div>
+        <div class="plato">
+          <div class="plato-top"><h4>Maridaje por copa</h4><span class="marca">5 pasos</span><span class="puntos"></span><span class="precio">$28.000</span></div>
+          <p>Cinco copas seleccionadas por nuestro sommelier para acompañar el menú degustación.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="menu-nota">Los precios pueden variar según disponibilidad del producto. Consultanos por opciones veganas.</p>
+  </div>
+</section>
+
+<!-- ============ DEGUSTACION ============ -->
+<section class="degustacion" id="degustacion">
+  <div class="wrap">
+    <div class="deg-caja rev">
+      <div class="eyebrow centro">Experiencia completa</div>
+      <h2>Menú <i style="font-style:italic;color:var(--oro)">degustación</i></h2>
+      <p style="color:var(--gris);max-width:52ch;margin:0 auto">Siete pasos que recorren toda la carta de la estación, servidos frente a la cocina abierta. Dura aproximadamente dos horas y media.</p>
+      <div class="deg-precio">$68.000<small>Por persona · Maridaje opcional +$28.000</small></div>
+      <div class="deg-pasos">
+        <span>Aperitivo</span><span>Dos entradas</span><span>Pasta</span><span>Pescado</span><span>Carne</span><span>Pre postre</span><span>Postre</span>
+      </div>
+      <a href="#reservas" class="btn btn-solido"><span>Reservar degustación</span></a>
+      <p style="color:var(--gris);font-size:.82rem;margin-top:1.6rem">Disponible de miércoles a sábado, en dos turnos: 20:30 y 22:30. Requiere reserva con 48 horas de anticipación.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHEF ============ -->
+<section class="chef" id="chef">
+  <div class="wrap chef-grid">
+    <div class="rev">
+      <div class="eyebrow">Detrás de la cocina</div>
+      <h2 style="font-size:clamp(2.2rem,4.4vw,3.4rem)">Veinte años<br>frente al fuego</h2>
+      <blockquote>"Un plato no se termina en la cocina. Se termina cuando alguien lo prueba y se acuerda de algo."</blockquote>
+      <p style="color:var(--gris);margin-bottom:1.2rem">Martín Aguirre se formó en Buenos Aires y trabajó ocho años en cocinas de España y Perú antes de volver a Córdoba, donde nació. Abrió Terrazza en 2019 con la idea de cocinar producto local con técnica de afuera.</p>
+      <p style="color:var(--gris)">Hoy dirige una brigada de once personas y sigue haciendo él mismo las compras en la feria tres veces por semana.</p>
+      <div style="margin-top:2.2rem">
+        <div class="nombre">Martín Aguirre</div>
+        <div class="rol">Chef ejecutivo y socio fundador</div>
+      </div>
+    </div>
+    <div class="chef-art rev">
+      <svg viewBox="0 0 460 536" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs><linearGradient id="c1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2A251E"/><stop offset="100%" stop-color="#0B0A09"/></linearGradient></defs>
+        <rect width="460" height="536" fill="url(#c1)"/>
+        <circle cx="230" cy="150" r="170" fill="#C6A15B" opacity=".1"/>
+        <path d="M230 138c-40 0-72 30-72 66 0 22 10 40 26 52v34h92v-34c16-12 26-30 26-52 0-36-32-66-72-66Z" fill="#F4F1EA" opacity=".9"/>
+        <path d="M172 118c0-24 26-42 58-42s58 18 58 42c0 12-8 20-18 20H190c-10 0-18-8-18-20Z" fill="#F4F1EA"/>
+        <ellipse cx="230" cy="70" rx="34" ry="24" fill="#F4F1EA"/>
+        <ellipse cx="196" cy="82" rx="26" ry="20" fill="#F4F1EA"/>
+        <ellipse cx="264" cy="82" rx="26" ry="20" fill="#F4F1EA"/>
+        <path d="M136 290h188v246H136z" fill="#F4F1EA" opacity=".85"/>
+        <path d="M230 290v246" stroke="#DDD7CC" stroke-width="3"/>
+        <g fill="#0E0E0F" opacity=".7">
+          <circle cx="212" cy="330" r="5"/><circle cx="212" cy="366" r="5"/><circle cx="212" cy="402" r="5"/>
+        </g>
+        <path d="M100 336c-18 20-24 60-24 200h60V300l-36 36Z" fill="#F4F1EA" opacity=".7"/>
+        <path d="M360 336c18 20 24 60 24 200h-60V300l36 36Z" fill="#F4F1EA" opacity=".7"/>
+        <g stroke="#C6A15B" stroke-width="3" fill="none" opacity=".7">
+          <path d="M330 420v90M330 420c-10 0-16 8-16 18s6 18 16 18"/>
+        </g>
+        <rect y="470" width="460" height="66" fill="#0B0A09" opacity=".45"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALERIA ============ -->
+<section id="galeria">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <div class="eyebrow centro">El salón</div>
+      <h2>Un edificio de <i>1912</i></h2>
+      <p>Restauramos la casa respetando los pisos calcáreos originales, los techos de seis metros y el patio andaluz del fondo.</p>
+    </div>
+    <div class="gal rev">
+      <figure class="gal-item alto">
+        <svg viewBox="0 0 400 820" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#332C22"/><stop offset="100%" stop-color="#0E0E0F"/></linearGradient></defs>
+          <rect width="400" height="820" fill="url(#g1)"/>
+          <g stroke="#C6A15B" stroke-width="1.4" opacity=".45"><path d="M120 0v210M280 0v170"/></g>
+          <g fill="#C6A15B" opacity=".8">
+            <path d="M92 210h56l-11 30h-34z"/><path d="M252 170h56l-11 30h-34z"/>
+          </g>
+          <g fill="#C6A15B" opacity=".12"><circle cx="120" cy="230" r="78"/><circle cx="280" cy="190" r="70"/></g>
+          <rect x="40" y="440" width="320" height="14" rx="7" fill="#1C1913"/>
+          <rect x="70" y="454" width="14" height="150" fill="#1C1913"/>
+          <rect x="316" y="454" width="14" height="150" fill="#1C1913"/>
+          <ellipse cx="200" cy="436" rx="150" ry="20" fill="#2A251E"/>
+          <ellipse cx="150" cy="428" rx="42" ry="12" fill="#F4F1EA" opacity=".8"/>
+          <ellipse cx="256" cy="432" rx="42" ry="12" fill="#F4F1EA" opacity=".8"/>
+          <rect y="700" width="400" height="120" fill="#0B0A09" opacity=".6"/>
+        </svg>
+        <figcaption>Salón principal</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="400" fill="#1C1913"/>
+          <circle cx="300" cy="90" r="110" fill="#C6A15B" opacity=".12"/>
+          <ellipse cx="200" cy="220" rx="118" ry="118" fill="#F4F1EA" opacity=".9"/>
+          <ellipse cx="200" cy="220" rx="86" ry="86" fill="#EDE8DE"/>
+          <path d="M200 168c26 0 46 16 46 38s-20 34-46 34-46-12-46-34 20-38 46-38Z" fill="#7E4B3A"/>
+          <g fill="#4E6B3C" opacity=".8"><ellipse cx="168" cy="248" rx="20" ry="10" transform="rotate(-16 168 248)"/><ellipse cx="234" cy="252" rx="18" ry="9" transform="rotate(20 234 252)"/></g>
+        </svg>
+        <figcaption>Plato de estación</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="400" fill="#26221C"/>
+          <circle cx="100" cy="320" r="140" fill="#C6A15B" opacity=".1"/>
+          <g fill="#C6A15B" opacity=".85">
+            <path d="M150 120c0 40 26 54 26 92s-26 40-26 40h56s-26-2-26-40 26-52 26-92-26-62-26-62-30 22-30 62Z" opacity=".7"/>
+          </g>
+          <g fill="#F4F1EA" opacity=".85">
+            <path d="M236 140c-14 0-24 12-24 30s10 30 24 30v92h-10v14h30v-14h-10v-92c14 0 24-12 24-30s-10-30-24-30h-10Z" opacity=".7"/>
+          </g>
+          <rect y="330" width="400" height="70" fill="#0B0A09" opacity=".5"/>
+        </svg>
+        <figcaption>Bodega de guarda</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="400" fill="#0E0E0F"/>
+          <g stroke="#C6A15B" stroke-width="2" fill="none" opacity=".5">
+            <path d="M40 120h320M40 200h320M40 280h320"/>
+          </g>
+          <g fill="#C6A15B" opacity=".22">
+            <rect x="60" y="60" width="80" height="120" rx="6"/><rect x="160" y="80" width="80" height="100" rx="6"/><rect x="260" y="50" width="80" height="130" rx="6"/>
+          </g>
+          <circle cx="200" cy="300" r="60" fill="#C6A15B" opacity=".16"/>
+        </svg>
+        <figcaption>Cocina abierta</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs><linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3A5136"/><stop offset="100%" stop-color="#12140F"/></linearGradient></defs>
+          <rect width="400" height="400" fill="url(#g5)"/>
+          <circle cx="200" cy="150" r="120" fill="#C6A15B" opacity=".14"/>
+          <g fill="#0E0E0F" opacity=".45">
+            <ellipse cx="90" cy="120" rx="60" ry="80"/><ellipse cx="320" cy="90" rx="70" ry="90"/>
+          </g>
+          <rect x="130" y="250" width="140" height="12" rx="6" fill="#1C1913"/>
+          <rect x="150" y="262" width="10" height="80" fill="#1C1913"/>
+          <rect x="240" y="262" width="10" height="80" fill="#1C1913"/>
+        </svg>
+        <figcaption>Patio andaluz</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESERVAS ============ -->
+<section class="reserva" id="reservas">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <div class="eyebrow">Reservas</div>
+      <h2>Guardamos tu <i>mesa</i></h2>
+      <p>Recomendamos reservar con al menos dos días de anticipación. Los fines de semana suelen agotarse.</p>
+    </div>
+    <div class="res-grid">
+      <form class="form-res rev" id="formReserva">
+        <div class="campo">
+          <label for="nom">Nombre y apellido</label>
+          <input type="text" id="nom" name="nombre" required placeholder="Tu nombre">
+        </div>
+        <div class="campo">
+          <label for="tel">Teléfono</label>
+          <input type="tel" id="tel" name="telefono" required placeholder="+54 351 ...">
+        </div>
+        <div class="campo">
+          <label for="fec">Fecha</label>
+          <input type="date" id="fec" name="fecha" required>
+        </div>
+        <div class="campo">
+          <label for="hor">Horario</label>
+          <select id="hor" name="horario" required>
+            <option value="">Elegir turno</option>
+            <option>20:00</option><option>20:30</option><option>21:00</option>
+            <option>21:30</option><option>22:00</option><option>22:30</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="per">Personas</label>
+          <select id="per" name="personas" required>
+            <option value="">¿Cuántos son?</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+            <option>5</option><option>6</option><option>Más de 6</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="exp">Experiencia</label>
+          <select id="exp" name="experiencia">
+            <option>Carta a la orden</option>
+            <option>Menú degustación</option>
+            <option>Mesa del pase (cocina)</option>
+          </select>
+        </div>
+        <div class="campo full">
+          <label for="obs">Comentarios (alergias, celebración, etc.)</label>
+          <textarea id="obs" name="observaciones" placeholder="Contanos si hay algo que debamos saber"></textarea>
+        </div>
+        <button type="submit" class="btn btn-solido"><span>Confirmar reserva</span></button>
+        <p class="form-nota" id="notaForm">Te confirmamos por WhatsApp dentro de las 2 horas.</p>
+      </form>
+
+      <div class="datos-res rev">
+        <div class="dato-res">
+          <h4>Horarios</h4>
+          <ul>
+            <li><span>Martes a Jueves</span><span>20:00 — 00:00</span></li>
+            <li><span>Viernes y Sábado</span><span>20:00 — 01:00</span></li>
+            <li><span>Domingo</span><span>12:00 — 16:00</span></li>
+            <li><span>Lunes</span><span>Cerrado</span></li>
+          </ul>
+        </div>
+        <div class="dato-res">
+          <h4>Dónde estamos</h4>
+          <p>Independencia 1284, Nueva Córdoba<br>Córdoba Capital, Argentina</p>
+          <p style="margin-top:.6rem">+54 351 473-4251<br>reservas@terrazza.com.ar</p>
+        </div>
+        <div class="aviso">
+          Contamos con valet parking los viernes y sábados desde las 20:00. Para grupos de más de ocho personas, escribinos directamente por WhatsApp para armar un menú cerrado.
+        </div>
+        <a href="#" class="btn" style="align-self:flex-start"><span>Escribinos por WhatsApp</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">Terra<b>zza</b></div>
+        <p style="color:var(--gris);max-width:32ch;font-size:.92rem">Cocina de autor en el corazón de Nueva Córdoba. Producto de estación, fuego y técnica.</p>
+      </div>
+      <div>
+        <h5>Explorar</h5>
+        <ul>
+          <li><a href="#filosofia">Nosotros</a></li>
+          <li><a href="#carta">La carta</a></li>
+          <li><a href="#degustacion">Degustación</a></li>
+          <li><a href="#chef">El chef</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Horarios</h5>
+        <ul>
+          <li>Mar a Jue · 20:00–00:00</li>
+          <li>Vie y Sáb · 20:00–01:00</li>
+          <li>Domingo · 12:00–16:00</li>
+          <li>Lunes cerrado</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <ul>
+          <li>Independencia 1284</li>
+          <li>Nueva Córdoba, Córdoba</li>
+          <li>+54 351 473-4251</li>
+          <li>reservas@terrazza.com.ar</li>
+        </ul>
+        <div class="redes" style="margin-top:1.4rem">
+          <a href="#" aria-label="Instagram">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.29-.04-1.27-.13-2.41-.13-2.39 0-4.02 1.46-4.02 4.13V9.9H7.5V13h2.77v8h3.23Z"/></svg>
+          </a>
+          <a href="#" aria-label="WhatsApp">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.26A10 10 0 1 0 12 2Zm5.5 14.1c-.24.66-1.4 1.28-1.93 1.32-.5.05-1.13.07-1.82-.11a15.6 15.6 0 0 1-6.5-5.15c-.5-.67-1.15-1.79-1.15-2.94 0-1.15.6-1.71.82-1.95a.86.86 0 0 1 .62-.29h.44c.15 0 .34-.05.53.4l.73 1.77c.06.12.1.26.02.42l-.28.44-.4.44c-.13.13-.26.27-.11.53.15.25.66 1.09 1.42 1.77.98.87 1.8 1.14 2.05 1.27.25.13.4.11.55-.07l.79-.92c.18-.22.36-.18.6-.09l1.7.8c.25.13.42.19.48.29.06.1.06.6-.18 1.27Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>© 2026 Terrazza. Todos los derechos reservados.</div>
+      <div>Sitio de demostración · Diseño y desarrollo web</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('solid', window.scrollY > 60);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('menu');
+  burger.addEventListener('click', () => {
+    const abierto = menu.classList.toggle('abierto');
+    burger.classList.toggle('open', abierto);
+    burger.setAttribute('aria-expanded', abierto);
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    menu.classList.remove('abierto'); burger.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+  }));
+
+  // Tabs de la carta
+  document.querySelectorAll('.m-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.m-tab').forEach(x => x.classList.remove('activo'));
+      document.querySelectorAll('.m-panel').forEach(p => p.classList.remove('activo'));
+      t.classList.add('activo');
+      const panel = document.getElementById(t.dataset.p);
+      panel.classList.add('activo','visible');
+    });
+  });
+
+  // Fecha mínima = hoy
+  const fec = document.getElementById('fec');
+  if (fec) fec.min = new Date().toISOString().split('T')[0];
+
+  // Envío del formulario (demo)
+  document.getElementById('formReserva').addEventListener('submit', e => {
+    e.preventDefault();
+    const nota = document.getElementById('notaForm');
+    nota.textContent = '¡Gracias! Recibimos tu pedido de reserva. Te confirmamos por WhatsApp en breve.';
+    nota.style.color = 'var(--oro)';
+    e.target.querySelector('button[type=submit] span').textContent = 'Reserva enviada';
+  });
+
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} });
+  }, {threshold:.1, rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.rev').forEach((el,i) => {
+    el.style.transitionDelay = (i % 2) * 120 + 'ms';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>

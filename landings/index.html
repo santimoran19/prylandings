@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Sitios web para gastronomía | Córdoba</title>
+  <meta name="description"
+    content="Diseño y desarrollo de sitios web para cafeterías, restaurantes y locales de comida rápida en Córdoba. Ejemplos reales de lo que puedo hacer para tu negocio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --fondo: #0B0C0E;
+      --fondo-2: #131519;
+      --panel: #181B20;
+      --borde: rgba(255, 255, 255, .09);
+      --texto: #F2F3F5;
+      --gris: #8B9099;
+      --acento: #5B8DEF;
+      --acento-2: #7BE3B0;
+      --radio: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+      line-height: 1.7;
+      overflow-x: hidden
+    }
+
+    h1,
+    h2,
+    h3,
+    .serif {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -.01em
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    .wrap {
+      width: min(1140px, 91vw);
+      margin: 0 auto
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      font-size: .78rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--acento);
+      font-weight: 600;
+      margin-bottom: 1.4rem;
+    }
+
+    .kicker::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--acento-2)
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .95rem 1.9rem;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: .94rem;
+      transition: transform .22s cubic-bezier(.2, .8, .2, 1), box-shadow .22s, background .22s;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-claro {
+      background: var(--texto);
+      color: var(--fondo)
+    }
+
+    .btn-claro:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px -12px rgba(242, 243, 245, .35)
+    }
+
+    .btn-linea {
+      border-color: var(--borde);
+      color: var(--texto)
+    }
+
+    .btn-linea:hover {
+      background: rgba(255, 255, 255, .05);
+      transform: translateY(-3px)
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      position: relative;
+      padding: 8rem 0 6rem;
+      overflow: hidden
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 52% 46% at 22% 8%, rgba(91, 141, 239, .18), transparent 62%),
+        radial-gradient(ellipse 46% 44% at 84% 32%, rgba(123, 227, 176, .12), transparent 62%);
+    }
+
+    .hero-in {
+      position: relative;
+      z-index: 1;
+      max-width: 840px
+    }
+
+    .hero h1 {
+      font-size: clamp(2.9rem, 6.6vw, 5.2rem);
+      margin-bottom: 1.6rem
+    }
+
+    .hero h1 i {
+      font-style: italic;
+      color: var(--acento)
+    }
+
+    .hero p {
+      font-size: 1.16rem;
+      color: var(--gris);
+      max-width: 60ch;
+      margin-bottom: 2.6rem;
+      font-weight: 300
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: .9rem;
+      flex-wrap: wrap;
+      margin-bottom: 4rem
+    }
+
+    .marcadores {
+      display: flex;
+      gap: 2.8rem;
+      flex-wrap: wrap;
+      padding-top: 2.4rem;
+      border-top: 1px solid var(--borde)
+    }
+
+    .marc .n {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.4rem;
+      line-height: 1;
+      display: block;
+      margin-bottom: .25rem
+    }
+
+    .marc .t {
+      font-size: .84rem;
+      color: var(--gris)
+    }
+
+    /* ---------- TRABAJOS ---------- */
+    section {
+      padding: 5.5rem 0
+    }
+
+    .sec-head {
+      max-width: 600px;
+      margin-bottom: 3.4rem
+    }
+
+    .sec-head h2 {
+      font-size: clamp(2rem, 4.4vw, 3.2rem);
+      margin-bottom: .9rem
+    }
+
+    .sec-head p {
+      color: var(--gris);
+      font-weight: 300
+    }
+
+    .trabajos {
+      display: grid;
+      gap: 2rem
+    }
+
+    .trabajo {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 0;
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      overflow: hidden;
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1), border-color .35s;
+    }
+
+    .trabajo:hover {
+      transform: translateY(-6px);
+      border-color: rgba(91, 141, 239, .4)
+    }
+
+    .trabajo-info {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem
+    }
+
+    .etiqueta {
+      align-self: flex-start;
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: .32rem .9rem;
+      border-radius: 100px;
+      font-weight: 600;
+      border: 1px solid var(--borde);
+      color: var(--gris);
+    }
+
+    .trabajo h3 {
+      font-size: 2rem
+    }
+
+    .trabajo p {
+      color: var(--gris);
+      font-weight: 300;
+      font-size: .98rem
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: .4rem
+    }
+
+    .chip {
+      font-size: .76rem;
+      padding: .28rem .8rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .05);
+      color: var(--gris)
+    }
+
+    .trabajo-links {
+      display: flex;
+      gap: .7rem;
+      flex-wrap: wrap;
+      margin-top: 1rem
+    }
+
+    .trabajo-vista {
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+      background: var(--fondo-2)
+    }
+
+    .trabajo-vista svg {
+      width: 100%;
+      height: 100%;
+      transition: transform .6s cubic-bezier(.2, .8, .2, 1)
+    }
+
+    .trabajo:hover .trabajo-vista svg {
+      transform: scale(1.04)
+    }
+
+    .trabajo:nth-child(even) {
+      grid-template-columns: .85fr 1.15fr
+    }
+
+    .trabajo:nth-child(even) .trabajo-vista {
+      order: -1
+    }
+
+    /* ---------- QUE INCLUYE ---------- */
+    .incluye {
+      background: var(--fondo-2);
+      border-top: 1px solid var(--borde);
+      border-bottom: 1px solid var(--borde)
+    }
+
+    .grid-inc {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.6rem
+    }
+
+    .inc {
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      padding: 2rem
+    }
+
+    .inc .ico {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: rgba(91, 141, 239, .14);
+      display: grid;
+      place-items: center;
+      margin-bottom: 1.2rem
+    }
+
+    .inc h3 {
+      font-size: 1.24rem;
+      margin-bottom: .5rem
+    }
+
+    .inc p {
+      color: var(--gris);
+      font-size: .94rem;
+      font-weight: 300
+    }
+
+    /* ---------- PRECIOS ---------- */
+    .planes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.6rem;
+      align-items: start
+    }
+
+    .plan {
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      padding: 2.4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .plan.destacado {
+      border-color: var(--acento);
+      background: linear-gradient(180deg, rgba(91, 141, 239, .1), var(--panel) 40%)
+    }
+
+    .plan-tag {
+      position: absolute;
+      top: -12px;
+      left: 2rem;
+      background: var(--acento);
+      color: #04070E;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .24rem .8rem;
+      border-radius: 100px;
+    }
+
+    .plan h3 {
+      font-size: 1.5rem
+    }
+
+    .plan .precio {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.6rem;
+      line-height: 1
+    }
+
+    .plan .precio small {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: .82rem;
+      color: var(--gris);
+      margin-top: .4rem;
+      font-weight: 400
+    }
+
+    .plan ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      margin: .6rem 0 1rem;
+      flex: 1
+    }
+
+    .plan li {
+      display: flex;
+      gap: .7rem;
+      font-size: .93rem;
+      color: var(--gris);
+      font-weight: 300
+    }
+
+    .plan li::before {
+      content: '✓';
+      color: var(--acento-2);
+      font-weight: 700;
+      flex: 0 0 auto
+    }
+
+    .plan .btn {
+      width: 100%;
+      justify-content: center
+    }
+
+    .nota-precios {
+      color: var(--gris);
+      font-size: .88rem;
+      margin-top: 2rem;
+      text-align: center;
+      font-weight: 300
+    }
+
+    /* ---------- CONTACTO ---------- */
+    .contacto {
+      text-align: center
+    }
+
+    .contacto h2 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      margin-bottom: 1rem
+    }
+
+    .contacto p {
+      color: var(--gris);
+      max-width: 54ch;
+      margin: 0 auto 2.4rem;
+      font-weight: 300
+    }
+
+    .contacto-btns {
+      display: flex;
+      gap: .9rem;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    .datos-contacto {
+      display: flex;
+      gap: 2.4rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      color: var(--gris);
+      font-size: .94rem
+    }
+
+    .datos-contacto a:hover {
+      color: var(--texto)
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      border-top: 1px solid var(--borde);
+      padding: 2.6rem 0;
+      color: var(--gris);
+      font-size: .86rem
+    }
+
+    .foot-in {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    /* ---------- REVEAL ---------- */
+    .rev {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s cubic-bezier(.2, .8, .2, 1), transform .7s cubic-bezier(.2, .8, .2, 1)
+    }
+
+    .rev.visible {
+      opacity: 1;
+      transform: none
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      .rev {
+        opacity: 1;
+        transform: none;
+        transition: none
+      }
+
+      html {
+        scroll-behavior: auto
+      }
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media(max-width:900px) {
+
+      .trabajo,
+      .trabajo:nth-child(even) {
+        grid-template-columns: 1fr
+      }
+
+      .trabajo:nth-child(even) .trabajo-vista {
+        order: 0
+      }
+
+      .trabajo-vista {
+        min-height: 230px;
+        order: -1
+      }
+
+      .trabajo-info {
+        padding: 2rem
+      }
+
+      .grid-inc,
+      .planes {
+        grid-template-columns: 1fr
+      }
+
+      section {
+        padding: 4rem 0
+      }
+
+      .hero {
+        padding: 5rem 0 4rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ HERO ============ -->
+  <div class="hero">
+    <div class="wrap hero-in">
+      <span class="kicker">Desarrollo web · Córdoba, Argentina</span>
+      <h1>Sitios web para negocios<br>que <i>todavía no tienen uno</i>.</h1>
+      <p>Hago páginas rápidas, que se ven bien en el celular y que sirven para algo concreto: que te encuentren en
+        Google, que vean tu menú y que te escriban por WhatsApp sin dar vueltas.</p>
+      <div class="hero-btns">
+        <a href="#trabajos" class="btn btn-claro">Ver ejemplos</a>
+        <a href="#contacto" class="btn btn-linea">Pedir presupuesto</a>
+      </div>
+      <div class="marcadores">
+        <div class="marc"><span class="n">5 días</span><span class="t">Entrega promedio</span></div>
+        <div class="marc"><span class="n">100%</span><span class="t">Adaptado a celular</span></div>
+        <div class="marc"><span class="n">Sin</span><span class="t">Costos ocultos</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TRABAJOS ============ -->
+  <section id="trabajos">
+    <div class="wrap">
+      <div class="sec-head rev">
+        <h2>Ejemplos de trabajo</h2>
+        <p>Tres sitios completos, uno por rubro. Podés abrirlos y navegarlos como lo haría un cliente tuyo.</p>
+      </div>
+
+      <div class="trabajos">
+        <!-- CAFETERIA -->
+        <article class="trabajo rev">
+          <div class="trabajo-info">
+            <span class="etiqueta">Cafetería</span>
+            <h3>Café Aurora</h3>
+            <p>Sitio cálido y elegante para una cafetería de especialidad. Menú navegable por categorías, sección de
+              historia, galería del local y horarios siempre visibles.</p>
+            <div class="chips">
+              <span class="chip">Menú con pestañas</span>
+              <span class="chip">Galería</span>
+              <span class="chip">Reseñas</span>
+              <span class="chip">Mapa y horarios</span>
+            </div>
+            <div class="trabajo-links">
+              <a href="cafeteria.html" class="btn btn-claro" target="_blank" rel="noopener">Ver el sitio →</a>
+            </div>
+          </div>
+          <div class="trabajo-vista">
+            <svg viewBox="0 0 480 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <linearGradient id="t1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#F2E9DD" />
+                  <stop offset="100%" stop-color="#C89B5C" />
+                </linearGradient>
+              </defs>
+              <rect width="480" height="400" fill="url(#t1)" />
+              <circle cx="380" cy="80" r="130" fill="#A9714B" opacity=".22" />
+              <path d="M160 168h150v84c0 40-34 72-75 72s-75-32-75-72v-84Z" fill="#FAF6F0" />
+              <ellipse cx="235" cy="168" rx="75" ry="17" fill="#6B4A32" />
+              <ellipse cx="235" cy="166" rx="62" ry="13" fill="#8A5F3E" />
+              <path d="M310 194h22a30 30 0 0 1 0 60h-22" stroke="#FAF6F0" stroke-width="13" fill="none"
+                stroke-linecap="round" />
+              <g opacity=".5" stroke="#FAF6F0" stroke-width="4.5" fill="none" stroke-linecap="round">
+                <path d="M206 134c0-16 14-18 14-34s-14-18-14-30" />
+                <path d="M240 128c0-16 14-18 14-34s-14-18-14-30" />
+                <path d="M274 134c0-16 14-18 14-34s-14-18-14-30" />
+              </g>
+              <g fill="#3B2A21" opacity=".8">
+                <ellipse cx="86" cy="336" rx="17" ry="11" transform="rotate(-24 86 336)" />
+                <ellipse cx="128" cy="360" rx="17" ry="11" transform="rotate(16 128 360)" />
+                <ellipse cx="392" cy="344" rx="17" ry="11" transform="rotate(38 392 344)" />
+              </g>
+            </svg>
+          </div>
+        </article>
+
+        <!-- RESTAURANTE -->
+        <article class="trabajo rev">
+          <div class="trabajo-info">
+            <span class="etiqueta">Restaurante</span>
+            <h3>Terrazza</h3>
+            <p>Diseño oscuro y sobrio para un restaurante de autor. Incluye carta completa por secciones, menú
+              degustación destacado y formulario de reservas funcional.</p>
+            <div class="chips">
+              <span class="chip">Formulario de reservas</span>
+              <span class="chip">Carta y vinos</span>
+              <span class="chip">Galería del salón</span>
+              <span class="chip">Sección del chef</span>
+            </div>
+            <div class="trabajo-links">
+              <a href="restaurante.html" class="btn btn-claro" target="_blank" rel="noopener">Ver el sitio →</a>
+            </div>
+          </div>
+          <div class="trabajo-vista">
+            <svg viewBox="0 0 480 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <linearGradient id="t2" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#26221C" />
+                  <stop offset="100%" stop-color="#0B0A09" />
+                </linearGradient>
+                <radialGradient id="t2b" cx="50%" cy="24%" r="46%">
+                  <stop offset="0%" stop-color="#C6A15B" stop-opacity=".32" />
+                  <stop offset="100%" stop-color="#C6A15B" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <rect width="480" height="400" fill="url(#t2)" />
+              <rect width="480" height="400" fill="url(#t2b)" />
+              <g stroke="#C6A15B" stroke-width="1.4" opacity=".55">
+                <path d="M150 0v80M330 0v58" />
+              </g>
+              <g fill="#C6A15B" opacity=".85">
+                <path d="M122 80h56l-11 28h-34z" />
+                <path d="M302 58h56l-11 28h-34z" />
+              </g>
+              <g fill="#C6A15B" opacity=".14">
+                <circle cx="150" cy="98" r="72" />
+                <circle cx="330" cy="76" r="66" />
+              </g>
+              <ellipse cx="240" cy="288" rx="200" ry="30" fill="#1C1913" />
+              <ellipse cx="240" cy="272" rx="92" ry="92" fill="#F4F1EA" opacity=".92" />
+              <ellipse cx="240" cy="272" rx="68" ry="68" fill="#EDE8DE" />
+              <path d="M240 232c26 0 46 14 46 32s-20 28-46 28-46-10-46-28 20-32 46-32Z" fill="#7E4B3A" />
+              <g fill="#4E6B3C" opacity=".85">
+                <ellipse cx="212" cy="296" rx="19" ry="9" transform="rotate(-16 212 296)" />
+                <ellipse cx="270" cy="300" rx="17" ry="8" transform="rotate(20 270 300)" />
+              </g>
+              <g fill="#C6A15B" opacity=".8">
+                <circle cx="226" cy="256" r="4" />
+                <circle cx="256" cy="250" r="3.4" />
+              </g>
+            </svg>
+          </div>
+        </article>
+
+        <!-- COMIDA RAPIDA -->
+        <article class="trabajo rev">
+          <div class="trabajo-info">
+            <span class="etiqueta">Comida rápida</span>
+            <h3>Bravo Burger</h3>
+            <p>Sitio con carrito de pedidos funcional: el cliente arma su pedido, y al confirmar se abre WhatsApp con
+              todo el detalle escrito. Sin apps ni comisiones de intermediarios.</p>
+            <div class="chips">
+              <span class="chip">Carrito funcional</span>
+              <span class="chip">Pedido por WhatsApp</span>
+              <span class="chip">Filtros de menú</span>
+              <span class="chip">Zonas de delivery</span>
+            </div>
+            <div class="trabajo-links">
+              <a href="comida-rapida.html" class="btn btn-claro" target="_blank" rel="noopener">Ver el sitio →</a>
+            </div>
+          </div>
+          <div class="trabajo-vista">
+            <svg viewBox="0 0 480 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <linearGradient id="t3" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#E03127" />
+                  <stop offset="100%" stop-color="#8A160F" />
+                </linearGradient>
+              </defs>
+              <rect width="480" height="400" fill="url(#t3)" />
+              <g fill="#FFF8EC" opacity=".14">
+                <circle cx="60" cy="60" r="4" />
+                <circle cx="140" cy="40" r="4" />
+                <circle cx="420" cy="70" r="4" />
+                <circle cx="380" cy="330" r="4" />
+                <circle cx="90" cy="350" r="4" />
+                <circle cx="240" cy="30" r="4" />
+              </g>
+              <ellipse cx="240" cy="356" rx="150" ry="22" fill="#141210" opacity=".35" />
+              <g stroke="#141210" stroke-width="6">
+                <path d="M112 168c0-52 58-92 128-92s128 40 128 92H112Z" fill="#F0A94A" />
+                <rect x="106" y="174" width="268" height="20" rx="10" fill="#1FA84E" />
+                <rect x="112" y="198" width="256" height="26" rx="13" fill="#E8503A" />
+                <rect x="118" y="228" width="244" height="30" rx="15" fill="#FFC42E" />
+                <rect x="112" y="262" width="256" height="30" rx="15" fill="#7A4A2C" />
+                <path d="M112 296h256c0 20-58 34-128 34s-128-14-128-34Z" fill="#F0A94A" />
+              </g>
+              <g fill="#FFF3DC" opacity=".9">
+                <circle cx="180" cy="120" r="6" />
+                <circle cx="228" cy="102" r="5.4" />
+                <circle cx="280" cy="108" r="6" />
+                <circle cx="322" cy="128" r="5.4" />
+              </g>
+            </svg>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUE INCLUYE ============ -->
+  <section class="incluye">
+    <div class="wrap">
+      <div class="sec-head rev">
+        <h2>Qué incluye cada sitio</h2>
+        <p>Todo lo de abajo va incluido siempre, sin costo extra ni letra chica.</p>
+      </div>
+      <div class="grid-inc">
+        <div class="inc rev">
+          <div class="ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="1.9"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="5" y="2.5" width="14" height="19" rx="2.5" />
+              <path d="M11 18.5h2" />
+            </svg>
+          </div>
+          <h3>Se ve bien en el celular</h3>
+          <p>La mayoría de tus clientes te va a buscar desde el teléfono. El sitio se adapta a cualquier pantalla, no es
+            una versión achicada de la de computadora.</p>
+        </div>
+        <div class="inc rev">
+          <div class="ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="1.9"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7.4" />
+              <path d="m21 21-4.4-4.4" />
+            </svg>
+          </div>
+          <h3>Preparado para Google</h3>
+          <p>Títulos, descripciones y estructura pensados para que aparezcas cuando alguien busca tu rubro en tu zona.
+            Sin humo ni promesas de primer puesto.</p>
+        </div>
+        <div class="inc rev">
+          <div class="ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="1.9"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 11.5a8.4 8.4 0 0 1-12.1 7.5L3 20.5l1.6-5.6A8.4 8.4 0 1 1 21 11.5Z" />
+            </svg>
+          </div>
+          <h3>Contacto directo</h3>
+          <p>Botón de WhatsApp siempre a mano, con el mensaje ya escrito. Menos fricción entre el que mira y el que te
+            escribe.</p>
+        </div>
+        <div class="inc rev">
+          <div class="ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="1.9"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 2.5 4 13.5h7l-1 8 9-11h-7l1-8Z" />
+            </svg>
+          </div>
+          <h3>Carga rápido</h3>
+          <p>Sin plantillas pesadas ni plugins de más. Si el sitio tarda, la gente se va antes de ver tu menú.</p>
+        </div>
+        <div class="inc rev">
+          <div class="ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="1.9"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 10.5c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z" />
+              <circle cx="12" cy="10.2" r="2.8" />
+            </svg>
+          </div>
+          <h3>Ubicación y horarios</h3>
+          <p>Mapa, dirección y horarios visibles sin tener que buscar. Las dos cosas que más se buscan de un local.</p>
+        </div>
+        <div class="inc rev">
+          <div class="ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="1.9"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16v12H7l-3 3V4Z" />
+            </svg>
+          </div>
+          <h3>Te explico cómo usarlo</h3>
+          <p>Te dejo grabado un video corto mostrando cómo cambiar precios, fotos o textos vos mismo, sin depender de
+            nadie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRECIOS ============ -->
+  <section id="precios">
+    <div class="wrap">
+      <div class="sec-head rev">
+        <h2>Precios claros</h2>
+        <p>Los valores de referencia para un negocio local. Si tu caso es distinto, lo charlamos y te paso un número
+          exacto.</p>
+      </div>
+      <div class="planes">
+        <div class="plan rev">
+          <h3>Landing simple</h3>
+          <div class="precio">Consultar<small>Entrega en 3 a 5 días</small></div>
+          <ul>
+            <li>Una página con todas las secciones</li>
+            <li>Menú o catálogo de hasta 20 ítems</li>
+            <li>Botón de WhatsApp y mapa</li>
+            <li>Adaptado a celular</li>
+            <li>Una ronda de cambios incluida</li>
+          </ul>
+          <a href="#contacto" class="btn btn-linea">Pedir presupuesto</a>
+        </div>
+        <div class="plan destacado rev">
+          <span class="plan-tag">Más elegido</span>
+          <h3>Sitio completo</h3>
+          <div class="precio">Consultar<small>Entrega en 7 a 10 días</small></div>
+          <ul>
+            <li>Todo lo del plan anterior</li>
+            <li>Menú con filtros y categorías</li>
+            <li>Formulario de reservas o pedidos</li>
+            <li>Galería de fotos del local</li>
+            <li>Configuración en Google</li>
+            <li>Dos rondas de cambios</li>
+          </ul>
+          <a href="#contacto" class="btn btn-claro">Pedir presupuesto</a>
+        </div>
+        <div class="plan rev">
+          <h3>Con pedidos online</h3>
+          <div class="precio">Consultar<small>Entrega en 10 a 15 días</small></div>
+          <ul>
+            <li>Todo lo del plan completo</li>
+            <li>Carrito de pedidos funcional</li>
+            <li>Pedido armado por WhatsApp</li>
+            <li>Cálculo de envío automático</li>
+            <li>Panel para cambiar precios</li>
+            <li>Soporte por 30 días</li>
+          </ul>
+          <a href="#contacto" class="btn btn-linea">Pedir presupuesto</a>
+        </div>
+      </div>
+      <p class="nota-precios">También ofrezco mantenimiento mensual opcional: actualizaciones de menú, cambios de
+        temporada y respaldo del sitio.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="contacto" id="contacto">
+    <div class="wrap rev">
+      <span class="kicker" style="justify-content:center">Hablemos</span>
+      <h2>¿Querés ver cómo quedaría<br>el de tu negocio?</h2>
+      <p>Escribime y te armo una vista previa sin compromiso. Me tomás cinco minutos por WhatsApp y te digo qué te
+        conviene según tu caso.</p>
+      <div class="contacto-btns">
+        <a href="#" class="btn btn-claro">Escribime por WhatsApp</a>
+        <a href="#" class="btn btn-linea">Mandarme un mail</a>
+      </div>
+      <div class="datos-contacto">
+        <span>Córdoba Capital, Argentina</span>
+        <a href="#">+54 351 362-8410</a>
+        <a href="#">santimorann19@gmail.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot-in">
+      <div>© 2026 · Desarrollo web para negocios locales · Santiago Morán</div>
+      <div>Los sitios de esta página son demostraciones. Los negocios son ficticios.</div>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: .1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.rev').forEach((el, i) => {
+      el.style.transitionDelay = (i % 3) * 90 + 'ms';
+      io.observe(el);
+    });
+  </script>
+</body>
+
+</html>

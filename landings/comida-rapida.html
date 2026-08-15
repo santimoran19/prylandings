@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bravo Burger — Hamburguesas y delivery en Córdoba</title>
+<meta name="description" content="Hamburguesas smash, papas rústicas y combos. Delivery en 30 minutos en Córdoba Capital. Pedí directo por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Archivo:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --negro:#141210;
+    --negro-2:#1F1C19;
+    --rojo:#E03127;
+    --rojo-osc:#B3211A;
+    --amarillo:#FFC42E;
+    --crema:#FFF8EC;
+    --gris:#8B837A;
+    --verde:#1FA84E;
+    --radio:16px;
+    --sombra-dura:6px 6px 0 var(--negro);
+    --sombra-suave:0 18px 40px -18px rgba(20,18,16,.4);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Archivo',system-ui,sans-serif;background:var(--crema);color:var(--negro);
+    line-height:1.65;overflow-x:hidden;
+  }
+  h1,h2,h3,.black{font-family:'Archivo Black',Impact,sans-serif;font-weight:400;line-height:.98;letter-spacing:-.02em;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:min(1220px,92vw);margin:0 auto}
+  .kicker{
+    display:inline-block;background:var(--amarillo);color:var(--negro);
+    padding:.34rem 1rem;border-radius:100px;font-size:.74rem;font-weight:800;
+    letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.2rem;
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+    padding:1.05rem 2.1rem;border-radius:100px;font-weight:800;font-size:.95rem;
+    text-transform:uppercase;letter-spacing:.04em;cursor:pointer;border:3px solid var(--negro);
+    font-family:inherit;transition:transform .18s cubic-bezier(.3,1.4,.5,1),box-shadow .18s;
+    box-shadow:var(--sombra-dura);
+  }
+  .btn:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--negro)}
+  .btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--negro)}
+  .btn-rojo{background:var(--rojo);color:#fff}
+  .btn-amarillo{background:var(--amarillo);color:var(--negro)}
+  .btn-blanco{background:var(--crema);color:var(--negro)}
+  .btn-verde{background:var(--verde);color:#fff}
+
+  /* ---------- BARRA PROMO ---------- */
+  .promo-bar{
+    background:var(--negro);color:var(--amarillo);padding:.6rem 0;overflow:hidden;
+    font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;
+  }
+  .promo-track{display:flex;gap:3rem;animation:corre 26s linear infinite;width:max-content}
+  .promo-track span::before{content:'★';color:var(--rojo);margin-right:.8rem}
+  @keyframes corre{to{transform:translateX(-50%)}}
+
+  /* ---------- NAV ---------- */
+  header.nav{position:sticky;top:0;z-index:100;background:var(--crema);border-bottom:3px solid var(--negro);transition:box-shadow .3s}
+  header.nav.pegado{box-shadow:0 6px 0 rgba(20,18,16,.08)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.85rem 0}
+  .logo{display:flex;align-items:center;gap:.6rem;font-family:'Archivo Black',sans-serif;font-size:1.42rem;text-transform:uppercase;letter-spacing:-.03em}
+  .logo-mark{width:42px;height:42px;flex:0 0 42px}
+  .nav-links{display:flex;gap:1.9rem;font-weight:700;font-size:.9rem;text-transform:uppercase;letter-spacing:.02em}
+  .nav-links a{transition:color .2s}
+  .nav-links a:hover{color:var(--rojo)}
+  .nav-derecha{display:flex;align-items:center;gap:.8rem}
+  .nav-cta{padding:.68rem 1.4rem;font-size:.82rem}
+  .carrito-btn{
+    position:relative;background:var(--negro);color:var(--crema);border:0;border-radius:100px;
+    width:48px;height:48px;display:grid;place-items:center;cursor:pointer;transition:transform .2s;
+  }
+  .carrito-btn:hover{transform:scale(1.07)}
+  .carrito-num{
+    position:absolute;top:-4px;right:-4px;background:var(--rojo);color:#fff;
+    min-width:22px;height:22px;border-radius:100px;display:grid;place-items:center;
+    font-size:.72rem;font-weight:800;border:2px solid var(--crema);
+  }
+  .burger{display:none;background:none;border:0;flex-direction:column;gap:5px;padding:.4rem;cursor:pointer}
+  .burger span{width:26px;height:3px;background:var(--negro);border-radius:3px;transition:.3s}
+  .burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--rojo);color:var(--crema);position:relative;overflow:hidden;
+    border-bottom:4px solid var(--negro);padding:4.5rem 0 5rem;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;opacity:.14;
+    background-image:radial-gradient(circle,var(--crema) 1.6px,transparent 1.6px);
+    background-size:26px 26px;
+  }
+  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.06fr .94fr;gap:3.5rem;align-items:center}
+  .hero h1{font-size:clamp(3rem,7.6vw,5.6rem);margin-bottom:1.3rem;text-shadow:5px 5px 0 var(--negro)}
+  .hero h1 em{font-style:normal;color:var(--amarillo);display:block}
+  .hero p{font-size:1.14rem;max-width:44ch;margin-bottom:2rem;font-weight:500}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.4rem}
+  .hero-tags{display:flex;gap:.7rem;flex-wrap:wrap}
+  .htag{
+    background:rgba(20,18,16,.28);border:2px solid rgba(255,248,236,.35);
+    padding:.4rem 1rem;border-radius:100px;font-size:.82rem;font-weight:700;
+  }
+  .hero-art{position:relative}
+  .hero-art svg{width:100%;height:auto;filter:drop-shadow(10px 12px 0 rgba(20,18,16,.55))}
+  .sello{
+    position:absolute;top:-10px;right:2%;width:118px;height:118px;
+    background:var(--amarillo);border:3px solid var(--negro);border-radius:50%;
+    display:grid;place-items:center;text-align:center;color:var(--negro);
+    font-family:'Archivo Black',sans-serif;font-size:.9rem;line-height:1.05;text-transform:uppercase;
+    animation:gira 9s linear infinite;
+  }
+  @keyframes gira{to{transform:rotate(360deg)}}
+  .sello div{animation:contragira 9s linear infinite}
+  @keyframes contragira{to{transform:rotate(-360deg)}}
+  .sello b{display:block;font-size:1.6rem;color:var(--rojo)}
+
+  /* ---------- FRANJA BENEFICIOS ---------- */
+  .franja{background:var(--amarillo);border-bottom:4px solid var(--negro);padding:1.6rem 0}
+  .franja-in{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center}
+  .ben{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+  .ben strong{font-family:'Archivo Black',sans-serif;font-size:1.02rem;text-transform:uppercase;line-height:1.1}
+  .ben small{font-size:.82rem;color:#5C5449;font-weight:600}
+
+  /* ---------- SECCIONES ---------- */
+  section{padding:5.5rem 0}
+  .sec-head{margin-bottom:3rem;max-width:640px}
+  .sec-head.centro{margin-inline:auto;text-align:center}
+  .sec-head h2{font-size:clamp(2.3rem,5.4vw,3.8rem);margin-bottom:.9rem}
+  .sec-head h2 em{font-style:normal;color:var(--rojo)}
+  .sec-head p{color:#5C5449;font-size:1.04rem;font-weight:500}
+
+  /* ---------- MENU ---------- */
+  .filtros{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.8rem}
+  .filtro{
+    padding:.6rem 1.5rem;border-radius:100px;border:2.5px solid var(--negro);background:var(--crema);
+    font:inherit;font-weight:800;font-size:.86rem;text-transform:uppercase;cursor:pointer;
+    transition:.2s;letter-spacing:.03em;
+  }
+  .filtro:hover{background:var(--amarillo)}
+  .filtro.activo{background:var(--negro);color:var(--crema)}
+  .productos{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem}
+  .prod{
+    background:#fff;border:3px solid var(--negro);border-radius:var(--radio);overflow:hidden;
+    display:flex;flex-direction:column;transition:transform .22s cubic-bezier(.3,1.3,.5,1),box-shadow .22s;
+  }
+  .prod:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--negro)}
+  .prod-img{aspect-ratio:1.5;position:relative;border-bottom:3px solid var(--negro);overflow:hidden}
+  .prod-img svg{width:100%;height:100%}
+  .prod-badge{
+    position:absolute;top:.8rem;left:.8rem;background:var(--rojo);color:#fff;
+    padding:.28rem .8rem;border-radius:100px;font-size:.7rem;font-weight:800;
+    text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--negro);
+  }
+  .prod-badge.verde{background:var(--verde)}
+  .prod-badge.amarillo{background:var(--amarillo);color:var(--negro)}
+  .prod-body{padding:1.4rem;display:flex;flex-direction:column;gap:.6rem;flex:1}
+  .prod h3{font-size:1.32rem}
+  .prod p{font-size:.9rem;color:#5C5449;font-weight:500;flex:1}
+  .prod-pie{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:.4rem}
+  .prod-precio{font-family:'Archivo Black',sans-serif;font-size:1.55rem;color:var(--rojo)}
+  .prod-precio small{display:block;font-family:'Archivo',sans-serif;font-size:.72rem;color:var(--gris);text-decoration:line-through;font-weight:600}
+  .add{
+    background:var(--negro);color:var(--crema);border:0;border-radius:100px;
+    padding:.62rem 1.2rem;font:inherit;font-weight:800;font-size:.82rem;text-transform:uppercase;
+    cursor:pointer;transition:.2s;white-space:nowrap;
+  }
+  .add:hover{background:var(--rojo)}
+  .add.agregado{background:var(--verde)}
+
+  /* ---------- COMBO DESTACADO ---------- */
+  .combo{background:var(--negro);color:var(--crema);border-top:4px solid var(--negro);border-bottom:4px solid var(--negro)}
+  .combo-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+  .combo h2{font-size:clamp(2.4rem,5.6vw,4.2rem);margin-bottom:1.2rem}
+  .combo h2 em{font-style:normal;color:var(--amarillo)}
+  .combo ul{list-style:none;margin:1.6rem 0 2rem;display:flex;flex-direction:column;gap:.7rem}
+  .combo li{display:flex;align-items:center;gap:.8rem;font-weight:600}
+  .combo li::before{
+    content:'✓';width:26px;height:26px;background:var(--amarillo);color:var(--negro);
+    border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.85rem;flex:0 0 26px;
+  }
+  .combo-precio{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.8rem}
+  .combo-precio .ahora{font-family:'Archivo Black',sans-serif;font-size:3.4rem;color:var(--amarillo);line-height:1}
+  .combo-precio .antes{font-size:1.3rem;color:var(--gris);text-decoration:line-through;font-weight:700}
+  .combo-art svg{width:100%;height:auto;filter:drop-shadow(8px 10px 0 rgba(0,0,0,.5))}
+
+  /* ---------- COMO PEDIR ---------- */
+  .pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;counter-reset:p}
+  .paso{
+    background:#fff;border:3px solid var(--negro);border-radius:var(--radio);padding:2.2rem 1.8rem;
+    position:relative;counter-increment:p;
+  }
+  .paso::before{
+    content:counter(p);position:absolute;top:-22px;left:1.6rem;
+    width:48px;height:48px;background:var(--rojo);color:#fff;border:3px solid var(--negro);
+    border-radius:50%;display:grid;place-items:center;font-family:'Archivo Black',sans-serif;font-size:1.3rem;
+  }
+  .paso h3{font-size:1.24rem;margin:.9rem 0 .5rem}
+  .paso p{font-size:.94rem;color:#5C5449;font-weight:500}
+
+  /* ---------- ZONAS ---------- */
+  .zonas{background:var(--amarillo);border-top:4px solid var(--negro);border-bottom:4px solid var(--negro)}
+  .zonas-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+  .zona-lista{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.6rem}
+  .zona{background:var(--negro);color:var(--crema);padding:.5rem 1.1rem;border-radius:100px;font-weight:700;font-size:.88rem}
+  .zona-nota{margin-top:1.8rem;background:var(--crema);border:3px solid var(--negro);border-radius:var(--radio);padding:1.3rem;font-weight:600;font-size:.95rem}
+  .mapa-zonas{border:4px solid var(--negro);border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra-dura);aspect-ratio:1.15;background:#fff}
+  .mapa-zonas svg{width:100%;height:100%}
+
+  /* ---------- OPINIONES ---------- */
+  .opiniones-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+  .op{background:#fff;border:3px solid var(--negro);border-radius:var(--radio);padding:1.8rem;display:flex;flex-direction:column;gap:.9rem}
+  .op .est{color:var(--amarillo);font-size:1.05rem;letter-spacing:2px;-webkit-text-stroke:1px var(--negro)}
+  .op p{font-weight:500;font-size:.98rem}
+  .op-autor{display:flex;align-items:center;gap:.8rem;margin-top:auto}
+  .op-avatar{width:44px;height:44px;border-radius:50%;border:2.5px solid var(--negro);display:grid;place-items:center;font-family:'Archivo Black',sans-serif;font-size:.95rem}
+  .op-autor strong{display:block;font-size:.94rem}
+  .op-autor small{color:var(--gris);font-size:.8rem;font-weight:600}
+
+  /* ---------- CTA ---------- */
+  .cta{background:var(--rojo);color:var(--crema);text-align:center;border-top:4px solid var(--negro);position:relative;overflow:hidden}
+  .cta::before{
+    content:'';position:absolute;inset:0;opacity:.14;
+    background-image:radial-gradient(circle,var(--crema) 1.6px,transparent 1.6px);background-size:26px 26px;
+  }
+  .cta .wrap{position:relative;z-index:1}
+  .cta h2{font-size:clamp(2.4rem,6vw,4.4rem);margin-bottom:1rem;text-shadow:4px 4px 0 var(--negro)}
+  .cta p{max-width:48ch;margin:0 auto 2.2rem;font-size:1.08rem;font-weight:500}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--negro);color:#A69C90;padding:4rem 0 1.8rem;font-size:.92rem}
+  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:3rem}
+  footer h4{color:var(--amarillo);font-family:'Archivo Black',sans-serif;font-size:.9rem;text-transform:uppercase;margin-bottom:1.1rem}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+  footer a:hover{color:var(--amarillo)}
+  .foot-logo{display:flex;align-items:center;gap:.6rem;font-family:'Archivo Black',sans-serif;font-size:1.3rem;color:var(--crema);text-transform:uppercase;margin-bottom:.9rem}
+  .foot-bot{border-top:2px solid rgba(255,248,236,.12);padding-top:1.6rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.82rem}
+  .redes{display:flex;gap:.6rem;margin-top:1.2rem}
+  .red{width:40px;height:40px;border-radius:50%;background:rgba(255,248,236,.1);display:grid;place-items:center;transition:.2s}
+  .red:hover{background:var(--amarillo);transform:translateY(-3px)}
+
+  /* ---------- CARRITO ---------- */
+  .panel-fondo{
+    position:fixed;inset:0;background:rgba(20,18,16,.6);z-index:200;
+    opacity:0;pointer-events:none;transition:opacity .3s;
+  }
+  .panel-fondo.abierto{opacity:1;pointer-events:auto}
+  .panel{
+    position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--crema);
+    z-index:201;transform:translateX(102%);transition:transform .35s cubic-bezier(.2,.8,.2,1);
+    display:flex;flex-direction:column;border-left:4px solid var(--negro);
+  }
+  .panel.abierto{transform:none}
+  .panel-top{padding:1.4rem;border-bottom:3px solid var(--negro);display:flex;align-items:center;justify-content:space-between}
+  .panel-top h3{font-size:1.32rem}
+  .cerrar{background:var(--negro);color:var(--crema);border:0;width:38px;height:38px;border-radius:50%;font-size:1.1rem;cursor:pointer;transition:.2s}
+  .cerrar:hover{background:var(--rojo)}
+  .panel-body{flex:1;overflow-y:auto;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1rem}
+  .vacio{text-align:center;color:var(--gris);padding:3rem 1rem;font-weight:600}
+  .linea-item{display:flex;align-items:center;gap:.9rem;padding-bottom:1rem;border-bottom:2px dashed rgba(20,18,16,.16)}
+  .linea-item .nom{flex:1;font-weight:700;font-size:.95rem;line-height:1.3}
+  .linea-item .nom small{display:block;color:var(--gris);font-weight:600;font-size:.8rem}
+  .cant{display:flex;align-items:center;gap:.45rem}
+  .cant button{
+    width:28px;height:28px;border-radius:50%;border:2px solid var(--negro);background:var(--crema);
+    font:inherit;font-weight:800;cursor:pointer;line-height:1;transition:.18s;
+  }
+  .cant button:hover{background:var(--amarillo)}
+  .cant span{min-width:20px;text-align:center;font-weight:800}
+  .panel-pie{padding:1.4rem;border-top:3px solid var(--negro);background:#fff}
+  .total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem}
+  .total .t{font-family:'Archivo Black',sans-serif;font-size:1.1rem;text-transform:uppercase}
+  .total .m{font-family:'Archivo Black',sans-serif;font-size:1.9rem;color:var(--rojo)}
+  .panel-pie .btn{width:100%}
+  .envio-nota{font-size:.8rem;color:var(--gris);text-align:center;margin-top:.8rem;font-weight:600}
+
+  /* ---------- WHATSAPP FLOTANTE ---------- */
+  .wsp{
+    position:fixed;right:20px;bottom:20px;z-index:90;width:60px;height:60px;border-radius:50%;
+    background:#25D366;border:3px solid var(--negro);display:grid;place-items:center;
+    box-shadow:var(--sombra-dura);transition:transform .2s;
+  }
+  .wsp:hover{transform:translate(-3px,-3px)}
+
+  /* ---------- REVEAL ---------- */
+  .rev{opacity:0;transform:translateY(30px);transition:opacity .6s cubic-bezier(.2,.8,.2,1),transform .6s cubic-bezier(.2,.8,.2,1)}
+  .rev.visible{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .rev{opacity:1;transform:none;transition:none}
+    .promo-track,.sello,.sello div{animation:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:980px){
+    .hero-grid,.combo-grid,.zonas-grid{grid-template-columns:1fr;gap:2.6rem}
+    .hero-art{max-width:400px;margin-inline:auto}
+    .productos,.pasos,.opiniones-grid{grid-template-columns:1fr 1fr}
+    .franja-in{grid-template-columns:1fr 1fr;gap:1.6rem}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    section{padding:4rem 0}
+    .nav-links{
+      position:fixed;inset:0 0 auto 0;top:0;background:var(--crema);flex-direction:column;
+      align-items:flex-start;padding:6rem 2rem 2.4rem;gap:1.3rem;font-size:1.15rem;
+      transform:translateY(-104%);transition:transform .4s cubic-bezier(.2,.8,.2,1);
+      border-bottom:4px solid var(--negro);z-index:-1;
+    }
+    .nav-links.abierto{transform:none}
+    .burger{display:flex}
+    .nav-cta{display:none}
+  }
+  @media(max-width:620px){
+    .productos,.pasos,.opiniones-grid{grid-template-columns:1fr}
+    .franja-in{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .sello{width:92px;height:92px;font-size:.72rem}
+    .combo-precio .ahora{font-size:2.6rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ PROMO ============ -->
+<div class="promo-bar">
+  <div class="promo-track">
+    <span>Envío gratis desde $18.000</span><span>2x1 en smash los martes</span><span>Delivery en 30 minutos</span><span>Combo familiar 20% off</span>
+    <span>Envío gratis desde $18.000</span><span>2x1 en smash los martes</span><span>Delivery en 30 minutos</span><span>Combo familiar 20% off</span>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a href="#" class="logo">
+      <svg class="logo-mark" viewBox="0 0 44 44" aria-hidden="true">
+        <circle cx="22" cy="22" r="21" fill="#E03127" stroke="#141210" stroke-width="2.5"/>
+        <path d="M11 20c0-6 5-10 11-10s11 4 11 10H11Z" fill="#FFC42E"/>
+        <rect x="10" y="21" width="24" height="4" rx="2" fill="#1FA84E"/>
+        <rect x="10" y="25" width="24" height="5" rx="2.5" fill="#8A5230"/>
+        <path d="M11 30h22c0 3-3 5-11 5s-11-2-11-5Z" fill="#FFC42E"/>
+      </svg>
+      Bravo Burger
+    </a>
+    <nav class="nav-links" id="menu">
+      <a href="#menu-sec">Menú</a>
+      <a href="#combo">Combos</a>
+      <a href="#como">Cómo pedir</a>
+      <a href="#zonas">Delivery</a>
+      <a href="#opiniones">Opiniones</a>
+    </nav>
+    <div class="nav-derecha">
+      <a href="#menu-sec" class="btn btn-rojo nav-cta">Pedir ahora</a>
+      <button class="carrito-btn" id="abrirCarrito" aria-label="Abrir carrito">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3h2.2l2.4 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21.5 7H6"/>
+          <circle cx="10" cy="20.5" r="1.4" fill="currentColor"/><circle cx="18" cy="20.5" r="1.4" fill="currentColor"/>
+        </svg>
+        <span class="carrito-num" id="numCarrito">0</span>
+      </button>
+      <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker">Delivery en 30 min · Córdoba Capital</span>
+      <h1>Hamburguesas<em>que se sienten</em></h1>
+      <p>Carne fresca del día, smasheada en plancha caliente, pan de papa hecho por nosotros y queso que se derrite de verdad. Sin vueltas.</p>
+      <div class="hero-btns">
+        <a href="#menu-sec" class="btn btn-amarillo">Ver el menú</a>
+        <a href="#" class="btn btn-blanco">Pedir por WhatsApp</a>
+      </div>
+      <div class="hero-tags">
+        <span class="htag">Carne 100% fresca</span>
+        <span class="htag">Pan propio</span>
+        <span class="htag">Sin conservantes</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 460 420" aria-hidden="true">
+        <ellipse cx="230" cy="382" rx="160" ry="24" fill="#141210" opacity=".3"/>
+        <path d="M78 168c0-58 68-104 152-104s152 46 152 104H78Z" fill="#F0A94A" stroke="#141210" stroke-width="6"/>
+        <g fill="#FFF3DC" opacity=".9">
+          <circle cx="150" cy="118" r="6"/><circle cx="196" cy="98" r="5.4"/><circle cx="248" cy="102" r="6"/>
+          <circle cx="298" cy="122" r="5.4"/><circle cx="222" cy="136" r="5"/><circle cx="176" cy="146" r="5"/><circle cx="284" cy="150" r="5.4"/>
+        </g>
+        <path d="M72 176h316c6 0 10 5 10 11s-4 11-10 11H72c-6 0-10-5-10-11s4-11 10-11Z" fill="#1FA84E" stroke="#141210" stroke-width="6"/>
+        <path d="M76 202h308c8 0 14 7 14 15s-6 15-14 15H76c-8 0-14-7-14-15s6-15 14-15Z" fill="#E8503A" stroke="#141210" stroke-width="6"/>
+        <path d="M84 236h292c10 0 18 9 18 20s-8 20-18 20H84c-10 0-18-9-18-20s8-20 18-20Z" fill="#FFC42E" stroke="#141210" stroke-width="6"/>
+        <path d="M78 280h304c9 0 16 9 16 20s-7 20-16 20H78c-9 0-16-9-16-20s7-20 16-20Z" fill="#7A4A2C" stroke="#141210" stroke-width="6"/>
+        <path d="M78 322h304c9 0 16 8 16 18 0 22-70 36-168 36S62 362 62 340c0-10 7-18 16-18Z" fill="#F0A94A" stroke="#141210" stroke-width="6"/>
+        <g stroke="#141210" stroke-width="4" opacity=".55" fill="none">
+          <path d="M120 296q14-10 28 0M180 300q14-10 28 0M250 296q14-10 28 0M312 300q14-10 28 0"/>
+        </g>
+      </svg>
+      <div class="sello"><div>Envío<b>Gratis</b>+$18k</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FRANJA ============ -->
+<div class="franja">
+  <div class="wrap franja-in">
+    <div class="ben">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M12 7v5.2l3.4 2"/></svg>
+      <strong>30 minutos</strong><small>o el envío es nuestro</small>
+    </div>
+    <div class="ben">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16.5V9l9-5 9 5v7.5l-9 5-9-5Z"/><path d="m3 9 9 5 9-5M12 14v7.5"/></svg>
+      <strong>Carne del día</strong><small>comprada esa mañana</small>
+    </div>
+    <div class="ben">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v8a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-8Z"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>
+      <strong>Pedí sin app</strong><small>directo por WhatsApp</small>
+    </div>
+    <div class="ben">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.8-4.5 4.2 1.2 6.1L12 16.8 6.6 19.7l1.2-6.1L3.3 9.4l6.1-.8L12 3Z"/></svg>
+      <strong>4.7 en Google</strong><small>+900 opiniones</small>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MENU ============ -->
+<section id="menu-sec">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <span class="kicker">Nuestro menú</span>
+      <h2>Elegí lo tuyo y <em>agregalo al pedido</em></h2>
+      <p>Armá tu pedido acá y te lo pasamos armado por WhatsApp. Sin bajar ninguna app.</p>
+    </div>
+
+    <div class="filtros rev">
+      <button class="filtro activo" data-f="todos">Todo</button>
+      <button class="filtro" data-f="burgers">Hamburguesas</button>
+      <button class="filtro" data-f="acomp">Acompañamientos</button>
+      <button class="filtro" data-f="bebidas">Bebidas</button>
+      <button class="filtro" data-f="postres">Postres</button>
+    </div>
+
+    <div class="productos" id="grillaProductos"></div>
+  </div>
+</section>
+
+<!-- ============ COMBO ============ -->
+<section class="combo" id="combo">
+  <div class="wrap combo-grid">
+    <div class="rev">
+      <span class="kicker">Solo los fines de semana</span>
+      <h2>Combo <em>familiar</em></h2>
+      <p style="font-size:1.06rem;font-weight:500;color:#C9C0B4">Para cuatro personas hambrientas. Ideal para el sábado a la noche cuando nadie quiere cocinar.</p>
+      <ul>
+        <li>4 hamburguesas dobles a elección</li>
+        <li>2 papas rústicas grandes con cheddar</li>
+        <li>8 nuggets caseros con salsa</li>
+        <li>4 bebidas de medio litro</li>
+      </ul>
+      <div class="combo-precio">
+        <span class="ahora">$46.900</span>
+        <span class="antes">$58.600</span>
+      </div>
+      <button class="btn btn-amarillo" data-combo="1">Agregar combo al pedido</button>
+    </div>
+    <div class="combo-art rev">
+      <svg viewBox="0 0 440 380" aria-hidden="true">
+        <rect x="30" y="150" width="380" height="200" rx="18" fill="#3A322A" stroke="#FFC42E" stroke-width="5"/>
+        <g stroke="#141210" stroke-width="4">
+          <g transform="translate(70,96)">
+            <path d="M0 46C0 20 26 0 58 0s58 20 58 46H0Z" fill="#F0A94A"/>
+            <rect x="-4" y="50" width="124" height="14" rx="7" fill="#E8503A"/>
+            <rect x="0" y="66" width="116" height="16" rx="8" fill="#7A4A2C"/>
+            <path d="M0 86h116c0 12-26 18-58 18S0 98 0 86Z" fill="#F0A94A"/>
+          </g>
+          <g transform="translate(238,96)">
+            <path d="M0 46C0 20 26 0 58 0s58 20 58 46H0Z" fill="#F0A94A"/>
+            <rect x="-4" y="50" width="124" height="14" rx="7" fill="#1FA84E"/>
+            <rect x="0" y="66" width="116" height="16" rx="8" fill="#7A4A2C"/>
+            <path d="M0 86h116c0 12-26 18-58 18S0 98 0 86Z" fill="#F0A94A"/>
+          </g>
+          <g transform="translate(84,232)">
+            <path d="M8 0h84l-10 96H18L8 0Z" fill="#E03127"/>
+            <g fill="#FFC42E">
+              <rect x="20" y="-30" width="12" height="42" rx="6" transform="rotate(-12 26 -9)"/>
+              <rect x="44" y="-38" width="12" height="48" rx="6"/>
+              <rect x="66" y="-30" width="12" height="42" rx="6" transform="rotate(12 72 -9)"/>
+            </g>
+          </g>
+          <g transform="translate(250,222)">
+            <path d="M14 0h72l-12 106H26L14 0Z" fill="#FFF3DC"/>
+            <rect x="42" y="-34" width="10" height="40" rx="5" fill="#E03127"/>
+            <path d="M18 34h64l-8 66H26l-8-66Z" fill="#E8503A" opacity=".8"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMO PEDIR ============ -->
+<section id="como">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <span class="kicker">Así de simple</span>
+      <h2>Pedir lleva <em>un minuto</em></h2>
+      <p>Sin registro, sin app, sin comisiones de intermediarios. Directo con nosotros.</p>
+    </div>
+    <div class="pasos">
+      <div class="paso rev">
+        <h3>Armá tu pedido</h3>
+        <p>Elegí lo que quieras del menú de arriba y agregalo al carrito. Podés modificar cantidades cuando quieras.</p>
+      </div>
+      <div class="paso rev">
+        <h3>Mandalo por WhatsApp</h3>
+        <p>Apretás "Enviar pedido" y se abre WhatsApp con todo el detalle escrito. Solo agregás tu dirección.</p>
+      </div>
+      <div class="paso rev">
+        <h3>Te llega en 30 min</h3>
+        <p>Te confirmamos el tiempo real y salimos. Pagás en efectivo, transferencia o tarjeta al recibir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ZONAS ============ -->
+<section class="zonas" id="zonas">
+  <div class="wrap zonas-grid">
+    <div class="rev">
+      <span class="kicker" style="background:var(--negro);color:var(--amarillo)">Delivery propio</span>
+      <h2 style="font-size:clamp(2.2rem,5vw,3.4rem);margin-bottom:.8rem">Llegamos a<br>estos barrios</h2>
+      <p style="font-weight:500;color:#5C5449">Tenemos repartidores propios, no tercerizamos. Por eso llegamos rápido y la comida no se enfría en el camino.</p>
+      <div class="zona-lista">
+        <span class="zona">Nueva Córdoba</span><span class="zona">Güemes</span><span class="zona">Centro</span>
+        <span class="zona">Alberdi</span><span class="zona">Cofico</span><span class="zona">General Paz</span>
+        <span class="zona">Alta Córdoba</span><span class="zona">San Vicente</span><span class="zona">Villa Cabrera</span>
+      </div>
+      <div class="zona-nota">
+        <strong>Envío $2.500</strong> en toda la zona · <strong>Gratis</strong> en pedidos desde $18.000<br>
+        <span style="color:#5C5449;font-weight:500">¿No está tu barrio? Escribinos igual, capaz llegamos.</span>
+      </div>
+    </div>
+    <div class="mapa-zonas rev">
+      <svg viewBox="0 0 400 348" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="400" height="348" fill="#FFF8EC"/>
+        <g stroke="#E3D9C8" stroke-width="14" fill="none">
+          <path d="M-10 80h420M-10 180h420M-10 268h420M80 -10v368M200 -10v368M310 -10v368"/>
+        </g>
+        <circle cx="200" cy="174" r="128" fill="#E03127" opacity=".1" stroke="#E03127" stroke-width="3" stroke-dasharray="10 8"/>
+        <circle cx="200" cy="174" r="82" fill="#1FA84E" opacity=".14" stroke="#1FA84E" stroke-width="3"/>
+        <g fill="#141210" font-family="Archivo,sans-serif" font-size="11" font-weight="700">
+          <text x="200" y="70" text-anchor="middle">ALTA CÓRDOBA</text>
+          <text x="96" y="180" text-anchor="middle">ALBERDI</text>
+          <text x="306" y="180" text-anchor="middle">GRAL. PAZ</text>
+          <text x="200" y="292" text-anchor="middle">NUEVA CÓRDOBA</text>
+        </g>
+        <circle cx="200" cy="174" r="20" fill="#E03127" stroke="#141210" stroke-width="3"/>
+        <path d="M193 168h14v6a4 4 0 0 1-4 4h-6a4 4 0 0 1-4-4v-6Z" fill="#FFC42E"/>
+        <text x="200" y="212" text-anchor="middle" font-family="Archivo,sans-serif" font-size="11" font-weight="800" fill="#141210">BRAVO</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPINIONES ============ -->
+<section id="opiniones">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <span class="kicker">Lo que dicen</span>
+      <h2>4.7 estrellas y <em>900 opiniones</em></h2>
+    </div>
+    <div class="opiniones-grid">
+      <div class="op rev">
+        <div class="est">★★★★★</div>
+        <p>"La mejor smash de Córdoba, sin discusión. Y llegan siempre antes de lo que dicen. Pido todos los viernes."</p>
+        <div class="op-autor">
+          <div class="op-avatar" style="background:var(--amarillo)">NB</div>
+          <div><strong>Nico B.</strong><small>Hace 1 semana</small></div>
+        </div>
+      </div>
+      <div class="op rev">
+        <div class="est">★★★★★</div>
+        <p>"El combo familiar nos salvó el sábado. Alcanzó perfecto para cuatro y las papas con cheddar son otra cosa."</p>
+        <div class="op-autor">
+          <div class="op-avatar" style="background:var(--rojo);color:#fff">CV</div>
+          <div><strong>Carla V.</strong><small>Hace 3 semanas</small></div>
+        </div>
+      </div>
+      <div class="op rev">
+        <div class="est">★★★★★</div>
+        <p>"Pedir por WhatsApp es un golazo, no tengo que bajar ninguna app ni pagar comisión de más. Súper simple."</p>
+        <div class="op-autor">
+          <div class="op-avatar" style="background:var(--verde);color:#fff">MD</div>
+          <div><strong>Mauro D.</strong><small>Hace 1 mes</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="wrap rev">
+    <h2>¿Tenés hambre ahora?</h2>
+    <p>Estamos abiertos hasta la 1 de la mañana. Armá tu pedido y en media hora lo tenés en la puerta.</p>
+    <a href="#menu-sec" class="btn btn-amarillo">Hacer mi pedido</a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">
+          <svg class="logo-mark" viewBox="0 0 44 44" aria-hidden="true">
+            <circle cx="22" cy="22" r="21" fill="#FFC42E" stroke="#FFF8EC" stroke-width="2.5"/>
+            <path d="M11 20c0-6 5-10 11-10s11 4 11 10H11Z" fill="#E03127"/>
+            <rect x="10" y="21" width="24" height="4" rx="2" fill="#1FA84E"/>
+            <rect x="10" y="25" width="24" height="5" rx="2.5" fill="#8A5230"/>
+            <path d="M11 30h22c0 3-3 5-11 5s-11-2-11-5Z" fill="#E03127"/>
+          </svg>
+          Bravo Burger
+        </div>
+        <p style="max-width:32ch">Hamburguesas smash con carne fresca del día y pan hecho por nosotros. Delivery propio en Córdoba Capital.</p>
+        <div class="redes">
+          <a href="#" class="red" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EC" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="#FFF8EC" stroke="none"/></svg></a>
+          <a href="#" class="red" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="#FFF8EC" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.29-.04-1.27-.13-2.41-.13-2.39 0-4.02 1.46-4.02 4.13V9.9H7.5V13h2.77v8h3.23Z"/></svg></a>
+          <a href="#" class="red" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="#FFF8EC" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.26A10 10 0 1 0 12 2Zm5.5 14.1c-.24.66-1.4 1.28-1.93 1.32-.5.05-1.13.07-1.82-.11a15.6 15.6 0 0 1-6.5-5.15c-.5-.67-1.15-1.79-1.15-2.94 0-1.15.6-1.71.82-1.95a.86.86 0 0 1 .62-.29h.44c.15 0 .34-.05.53.4l.73 1.77c.06.12.1.26.02.42l-.28.44-.4.44c-.13.13-.26.27-.11.53.15.25.66 1.09 1.42 1.77.98.87 1.8 1.14 2.05 1.27.25.13.4.11.55-.07l.79-.92c.18-.22.36-.18.6-.09l1.7.8c.25.13.42.19.48.29.06.1.06.6-.18 1.27Z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Menú</h4>
+        <ul>
+          <li><a href="#menu-sec">Hamburguesas</a></li>
+          <li><a href="#menu-sec">Acompañamientos</a></li>
+          <li><a href="#combo">Combos</a></li>
+          <li><a href="#menu-sec">Postres</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Horarios</h4>
+        <ul>
+          <li>Lun a Jue · 19:00–00:00</li>
+          <li>Vie y Sáb · 19:00–01:30</li>
+          <li>Domingo · 19:00–00:00</li>
+          <li>Delivery hasta el cierre</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li>Bv. San Juan 455</li>
+          <li>Córdoba Capital</li>
+          <li>+54 351 422-0268</li>
+          <li>hola@bravoburger.com.ar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>© 2026 Bravo Burger. Todos los derechos reservados.</div>
+      <div>Sitio de demostración · Diseño y desarrollo web</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CARRITO ============ -->
+<div class="panel-fondo" id="fondoPanel"></div>
+<aside class="panel" id="panelCarrito" aria-label="Tu pedido">
+  <div class="panel-top">
+    <h3>Tu pedido</h3>
+    <button class="cerrar" id="cerrarCarrito" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="panel-body" id="cuerpoCarrito"></div>
+  <div class="panel-pie">
+    <div class="total"><span class="t">Total</span><span class="m" id="totalCarrito">$0</span></div>
+    <button class="btn btn-verde" id="enviarPedido">Enviar pedido por WhatsApp</button>
+    <p class="envio-nota">Envío $2.500 · Gratis desde $18.000</p>
+  </div>
+</aside>
+
+<a href="#" class="wsp" aria-label="Escribinos por WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.26A10 10 0 1 0 12 2Zm5.5 14.1c-.24.66-1.4 1.28-1.93 1.32-.5.05-1.13.07-1.82-.11a15.6 15.6 0 0 1-6.5-5.15c-.5-.67-1.15-1.79-1.15-2.94 0-1.15.6-1.71.82-1.95a.86.86 0 0 1 .62-.29h.44c.15 0 .34-.05.53.4l.73 1.77c.06.12.1.26.02.42l-.28.44-.4.44c-.13.13-.26.27-.11.53.15.25.66 1.09 1.42 1.77.98.87 1.8 1.14 2.05 1.27.25.13.4.11.55-.07l.79-.92c.18-.22.36-.18.6-.09l1.7.8c.25.13.42.19.48.29.06.1.06.6-.18 1.27Z"/></svg>
+</a>
+
+<script>
+// ---------- DATOS DEL MENU ----------
+const PRODUCTOS = [
+  {id:1, cat:'burgers', nom:'Bravo Clásica', desc:'Medallón smash de 130 g, cheddar, lechuga, tomate y salsa de la casa en pan de papa.', precio:8900, badge:null,
+   svg:`<defs><linearGradient id="p1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFC42E"/><stop offset="100%" stop-color="#E8A020"/></linearGradient></defs><rect width="300" height="200" fill="url(#p1)"/><g stroke="#141210" stroke-width="5"><path d="M74 108c0-30 34-52 76-52s76 22 76 52H74Z" fill="#F0A94A"/><rect x="70" y="112" width="160" height="12" rx="6" fill="#1FA84E"/><rect x="74" y="126" width="152" height="16" rx="8" fill="#7A4A2C"/><path d="M74 146h152c0 12-34 20-76 20s-76-8-76-20Z" fill="#F0A94A"/></g>`},
+  {id:2, cat:'burgers', nom:'Doble Cheddar', desc:'Dos medallones smash, doble cheddar fundido, pepinos y cebolla caramelizada.', precio:12400, badge:'Más pedida',
+   svg:`<defs><linearGradient id="p2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E03127"/><stop offset="100%" stop-color="#B3211A"/></linearGradient></defs><rect width="300" height="200" fill="url(#p2)"/><g stroke="#141210" stroke-width="5"><path d="M74 88c0-28 34-48 76-48s76 20 76 48H74Z" fill="#F0A94A"/><rect x="70" y="92" width="160" height="11" rx="5.5" fill="#FFC42E"/><rect x="74" y="104" width="152" height="14" rx="7" fill="#7A4A2C"/><rect x="70" y="120" width="160" height="11" rx="5.5" fill="#FFC42E"/><rect x="74" y="132" width="152" height="14" rx="7" fill="#7A4A2C"/><path d="M74 150h152c0 12-34 20-76 20s-76-8-76-20Z" fill="#F0A94A"/></g>`},
+  {id:3, cat:'burgers', nom:'Bravo Picante', desc:'Smash con cheddar, jalapeños, cebolla crispy y salsa chipotle bien picante.', precio:10600, badge:'Picante',
+   svg:`<defs><linearGradient id="p3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F0703A"/><stop offset="100%" stop-color="#C22E14"/></linearGradient></defs><rect width="300" height="200" fill="url(#p3)"/><g stroke="#141210" stroke-width="5"><path d="M74 104c0-30 34-52 76-52s76 22 76 52H74Z" fill="#F0A94A"/><rect x="70" y="108" width="160" height="12" rx="6" fill="#1FA84E"/><rect x="74" y="122" width="152" height="16" rx="8" fill="#7A4A2C"/><path d="M74 142h152c0 12-34 20-76 20s-76-8-76-20Z" fill="#F0A94A"/></g><g fill="#1FA84E" stroke="#141210" stroke-width="3"><ellipse cx="110" cy="114" rx="12" ry="7"/><ellipse cx="190" cy="114" rx="12" ry="7"/></g>`},
+  {id:4, cat:'burgers', nom:'Veggie de garbanzos', desc:'Medallón casero de garbanzo y especias, queso vegano, rúcula y alioli de ajo.', precio:9800, badge:'Vegetariana',
+   svg:`<defs><linearGradient id="p4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4FA85E"/><stop offset="100%" stop-color="#2C7A3E"/></linearGradient></defs><rect width="300" height="200" fill="url(#p4)"/><g stroke="#141210" stroke-width="5"><path d="M74 106c0-30 34-52 76-52s76 22 76 52H74Z" fill="#F0A94A"/><rect x="70" y="110" width="160" height="12" rx="6" fill="#1FA84E"/><rect x="74" y="124" width="152" height="16" rx="8" fill="#C08A44"/><path d="M74 144h152c0 12-34 20-76 20s-76-8-76-20Z" fill="#F0A94A"/></g>`},
+  {id:5, cat:'acomp', nom:'Papas rústicas con cheddar', desc:'Papas con cáscara, cheddar fundido, panceta crocante y verdeo. Porción grande.', precio:7400, badge:null,
+   svg:`<defs><linearGradient id="p5" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFC42E"/><stop offset="100%" stop-color="#E07A1F"/></linearGradient></defs><rect width="300" height="200" fill="url(#p5)"/><g stroke="#141210" stroke-width="5"><path d="M104 92h92l-12 84h-68l-12-84Z" fill="#E03127"/><g fill="#FFE9A8"><rect x="116" y="52" width="15" height="52" rx="7" transform="rotate(-14 123 78)"/><rect x="142" y="42" width="15" height="60" rx="7"/><rect x="168" y="52" width="15" height="52" rx="7" transform="rotate(14 175 78)"/></g></g>`},
+  {id:6, cat:'acomp', nom:'Nuggets caseros x8', desc:'Pollo real empanado a mano, con salsa barbacoa o alioli a elección.', precio:6200, badge:null,
+   svg:`<defs><linearGradient id="p6" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F3C56A"/><stop offset="100%" stop-color="#C98B2C"/></linearGradient></defs><rect width="300" height="200" fill="url(#p6)"/><g fill="#E8A94A" stroke="#141210" stroke-width="4"><path d="M92 78c14-12 34-8 38 6s-8 26-24 26-28-20-14-32Z"/><path d="M148 62c14-12 34-8 38 6s-8 26-24 26-28-20-14-32Z"/><path d="M118 122c14-12 34-8 38 6s-8 26-24 26-28-20-14-32Z"/><path d="M176 112c14-12 34-8 38 6s-8 26-24 26-28-20-14-32Z"/></g>`},
+  {id:7, cat:'acomp', nom:'Aros de cebolla x10', desc:'Rebozados en cerveza, bien crocantes, con salsa de la casa para mojar.', precio:5800, badge:null,
+   svg:`<defs><linearGradient id="p7" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8A94A"/><stop offset="100%" stop-color="#A96A1E"/></linearGradient></defs><rect width="300" height="200" fill="url(#p7)"/><g fill="none" stroke="#141210" stroke-width="5"><circle cx="112" cy="90" r="34" fill="#F3C56A"/><circle cx="112" cy="90" r="15" fill="#A96A1E"/><circle cx="182" cy="112" r="38" fill="#F3C56A"/><circle cx="182" cy="112" r="17" fill="#A96A1E"/></g>`},
+  {id:8, cat:'bebidas', nom:'Gaseosa línea Coca 500 ml', desc:'Coca-Cola, Sprite o Fanta. Bien fría, en botella.', precio:2800, badge:null,
+   svg:`<defs><linearGradient id="p8" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E03127"/><stop offset="100%" stop-color="#8A160F"/></linearGradient></defs><rect width="300" height="200" fill="url(#p8)"/><g stroke="#141210" stroke-width="5"><rect x="126" y="46" width="48" height="18" rx="6" fill="#7A2018"/><path d="M130 64h40l10 40v56a12 12 0 0 1-12 12h-36a12 12 0 0 1-12-12v-56l10-40Z" fill="#FFF8EC"/><rect x="126" y="102" width="48" height="34" fill="#E03127"/></g>`},
+  {id:9, cat:'bebidas', nom:'Cerveza artesanal 473 ml', desc:'IPA o Golden de una cervecería cordobesa. Preguntá cuál hay hoy.', precio:4600, badge:null,
+   svg:`<defs><linearGradient id="p9" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#D89A2C"/><stop offset="100%" stop-color="#8A5A10"/></linearGradient></defs><rect width="300" height="200" fill="url(#p9)"/><g stroke="#141210" stroke-width="5"><path d="M112 58h76l-8 106a10 10 0 0 1-10 9h-40a10 10 0 0 1-10-9l-8-106Z" fill="#F3C56A"/><path d="M110 58h80c0-10-18-16-40-16s-40 6-40 16Z" fill="#FFF8EC"/></g>`},
+  {id:10, cat:'bebidas', nom:'Limonada casera 500 ml', desc:'Exprimida al momento con menta y jengibre. Sin azúcar agregada.', precio:3400, badge:null,
+   svg:`<defs><linearGradient id="p10" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8E14A"/><stop offset="100%" stop-color="#8AA020"/></linearGradient></defs><rect width="300" height="200" fill="url(#p10)"/><g stroke="#141210" stroke-width="5"><path d="M116 56h68l-10 108a10 10 0 0 1-10 9h-28a10 10 0 0 1-10-9L116 56Z" fill="#F7F2A8"/><rect x="146" y="20" width="9" height="44" rx="4.5" fill="#E03127"/><circle cx="140" cy="120" r="10" fill="#8AA020"/><circle cx="164" cy="140" r="8" fill="#8AA020"/></g>`},
+  {id:11, cat:'postres', nom:'Brownie con helado', desc:'Brownie tibio de chocolate 70% con una bocha de crema americana.', precio:5400, badge:null,
+   svg:`<defs><linearGradient id="p11" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7A4A2C"/><stop offset="100%" stop-color="#3A2114"/></linearGradient></defs><rect width="300" height="200" fill="url(#p11)"/><g stroke="#141210" stroke-width="5"><rect x="96" y="104" width="108" height="52" rx="8" fill="#4A2A16"/><circle cx="150" cy="88" r="34" fill="#FFF3DC"/></g>`},
+  {id:12, cat:'postres', nom:'Cheesecake del día', desc:'De frutos rojos o dulce de leche, según el día. Consultá cuál hay.', precio:5900, badge:null,
+   svg:`<defs><linearGradient id="p12" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8709A"/><stop offset="100%" stop-color="#A8305A"/></linearGradient></defs><rect width="300" height="200" fill="url(#p12)"/><g stroke="#141210" stroke-width="5"><path d="M104 84h92v58a10 10 0 0 1-10 10h-72a10 10 0 0 1-10-10V84Z" fill="#FFF3DC"/><path d="M104 84h92v16h-92z" fill="#E8709A"/><rect x="104" y="130" width="92" height="22" fill="#C98B2C"/></g>`}
+];
+const COMBO = {id:99, nom:'Combo familiar (4 personas)', precio:46900};
+const ENVIO = 2500, ENVIO_GRATIS_DESDE = 18000;
+const TELEFONO_WSP = '5493514220268'; // ← número al que llegan los pedidos
+
+const fmt = n => '$' + n.toLocaleString('es-AR');
+let carrito = [];
+
+// ---------- RENDER DEL MENU ----------
+const grilla = document.getElementById('grillaProductos');
+function pintarProductos(filtro = 'todos'){
+  const lista = filtro === 'todos' ? PRODUCTOS : PRODUCTOS.filter(p => p.cat === filtro);
+  grilla.innerHTML = lista.map(p => `
+    <article class="prod rev visible" data-cat="${p.cat}">
+      <div class="prod-img">
+        <svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${p.svg}</svg>
+        ${p.badge ? `<span class="prod-badge ${p.badge==='Vegetariana'?'verde':p.badge==='Más pedida'?'amarillo':''}">${p.badge}</span>` : ''}
+      </div>
+      <div class="prod-body">
+        <h3>${p.nom}</h3>
+        <p>${p.desc}</p>
+        <div class="prod-pie">
+          <span class="prod-precio">${fmt(p.precio)}</span>
+          <button class="add" data-id="${p.id}">Agregar</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+pintarProductos();
+
+document.querySelectorAll('.filtro').forEach(f => {
+  f.addEventListener('click', () => {
+    document.querySelectorAll('.filtro').forEach(x => x.classList.remove('activo'));
+    f.classList.add('activo');
+    pintarProductos(f.dataset.f);
+  });
+});
+
+// ---------- CARRITO ----------
+function agregar(item){
+  const yaEsta = carrito.find(l => l.id === item.id);
+  if (yaEsta) yaEsta.cant++;
+  else carrito.push({...item, cant:1});
+  pintarCarrito();
+}
+function cambiarCant(id, delta){
+  const l = carrito.find(x => x.id === id);
+  if (!l) return;
+  l.cant += delta;
+  if (l.cant <= 0) carrito = carrito.filter(x => x.id !== id);
+  pintarCarrito();
+}
+function subtotal(){ return carrito.reduce((s,l) => s + l.precio * l.cant, 0); }
+function costoEnvio(){ const s = subtotal(); return s === 0 || s >= ENVIO_GRATIS_DESDE ? 0 : ENVIO; }
+
+function pintarCarrito(){
+  const cuerpo = document.getElementById('cuerpoCarrito');
+  const unidades = carrito.reduce((s,l) => s + l.cant, 0);
+  document.getElementById('numCarrito').textContent = unidades;
+
+  if (!carrito.length){
+    cuerpo.innerHTML = '<div class="vacio">Todavía no agregaste nada.<br>Elegí algo del menú 👇</div>';
+  } else {
+    cuerpo.innerHTML = carrito.map(l => `
+      <div class="linea-item">
+        <div class="nom">${l.nom}<small>${fmt(l.precio)} c/u</small></div>
+        <div class="cant">
+          <button data-menos="${l.id}" aria-label="Quitar uno">−</button>
+          <span>${l.cant}</span>
+          <button data-mas="${l.id}" aria-label="Agregar uno">+</button>
+        </div>
+      </div>`).join('') +
+      `<div style="display:flex;justify-content:space-between;font-weight:700;font-size:.9rem;color:#5C5449">
+        <span>Envío</span><span>${costoEnvio() === 0 ? 'GRATIS' : fmt(costoEnvio())}</span>
+      </div>`;
+  }
+  document.getElementById('totalCarrito').textContent = fmt(subtotal() + costoEnvio());
+}
+pintarCarrito();
+
+document.addEventListener('click', e => {
+  const add = e.target.closest('.add');
+  if (add){
+    const p = PRODUCTOS.find(x => x.id === +add.dataset.id);
+    agregar({id:p.id, nom:p.nom, precio:p.precio});
+    add.textContent = '¡Agregado!'; add.classList.add('agregado');
+    setTimeout(() => { add.textContent = 'Agregar'; add.classList.remove('agregado'); }, 1100);
+    abrirPanel();
+  }
+  const combo = e.target.closest('[data-combo]');
+  if (combo){ agregar({...COMBO}); abrirPanel(); }
+
+  const menos = e.target.closest('[data-menos]');
+  if (menos) cambiarCant(+menos.dataset.menos, -1);
+  const mas = e.target.closest('[data-mas]');
+  if (mas) cambiarCant(+mas.dataset.mas, 1);
+});
+
+// ---------- PANEL ----------
+const panel = document.getElementById('panelCarrito');
+const fondo = document.getElementById('fondoPanel');
+const abrirPanel = () => { panel.classList.add('abierto'); fondo.classList.add('abierto'); };
+const cerrarPanel = () => { panel.classList.remove('abierto'); fondo.classList.remove('abierto'); };
+document.getElementById('abrirCarrito').addEventListener('click', abrirPanel);
+document.getElementById('cerrarCarrito').addEventListener('click', cerrarPanel);
+fondo.addEventListener('click', cerrarPanel);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarPanel(); });
+
+// ---------- ENVIAR PEDIDO A WHATSAPP ----------
+document.getElementById('enviarPedido').addEventListener('click', () => {
+  if (!carrito.length){ alert('Agregá algo al pedido primero.'); return; }
+  let txt = '¡Hola Bravo Burger! Quiero hacer este pedido:\n\n';
+  carrito.forEach(l => { txt += `• ${l.cant}x ${l.nom} — ${fmt(l.precio * l.cant)}\n`; });
+  txt += `\nEnvío: ${costoEnvio() === 0 ? 'GRATIS' : fmt(costoEnvio())}`;
+  txt += `\nTOTAL: ${fmt(subtotal() + costoEnvio())}\n\nMi dirección es: `;
+  window.open(`https://wa.me/${TELEFONO_WSP}?text=${encodeURIComponent(txt)}`, '_blank');
+});
+
+// ---------- NAV ----------
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('pegado', window.scrollY > 20), {passive:true});
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+burger.addEventListener('click', () => {
+  const abierto = menu.classList.toggle('abierto');
+  burger.classList.toggle('open', abierto);
+  burger.setAttribute('aria-expanded', abierto);
+});
+menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  menu.classList.remove('abierto'); burger.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');
+}));
+
+// ---------- REVEAL ----------
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rev').forEach((el,i) => {
+  el.style.transitionDelay = (i % 3) * 80 + 'ms';
+  io.observe(el);
+});
+</script>
+</body>
+</html>

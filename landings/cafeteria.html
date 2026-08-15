@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café Aurora — Café de especialidad en Córdoba</title>
+<meta name="description" content="Café de especialidad, pastelería artesanal y brunch en el corazón de Córdoba. Tostamos nuestro propio grano.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --crema:#FAF6F0;
+    --crema-2:#F2E9DD;
+    --cafe:#3B2A21;
+    --cafe-2:#5C4432;
+    --tostado:#A9714B;
+    --dorado:#C89B5C;
+    --texto:#3B2A21;
+    --texto-suave:#7A6656;
+    --blanco:#fff;
+    --radio:18px;
+    --sombra:0 20px 50px -20px rgba(59,42,33,.28);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--crema);
+    color:var(--texto);
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:1.15;letter-spacing:-.01em}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1180px,92vw);margin:0 auto}
+  .eyebrow{
+    font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--tostado);font-weight:600;margin-bottom:.9rem;display:block;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:.6rem;
+    padding:.95rem 1.9rem;border-radius:100px;font-weight:600;font-size:.95rem;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s;
+    border:1.5px solid transparent;cursor:pointer;
+  }
+  .btn-primario{background:var(--cafe);color:var(--crema);box-shadow:0 10px 24px -10px rgba(59,42,33,.6)}
+  .btn-primario:hover{transform:translateY(-3px);box-shadow:0 18px 34px -12px rgba(59,42,33,.65)}
+  .btn-borde{border-color:rgba(59,42,33,.25);color:var(--cafe)}
+  .btn-borde:hover{background:rgba(59,42,33,.06);transform:translateY(-3px)}
+  .btn-claro{background:var(--crema);color:var(--cafe)}
+  .btn-claro:hover{transform:translateY(-3px)}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed;inset:0 0 auto 0;z-index:100;
+    padding:1.1rem 0;transition:background .35s,box-shadow .35s,padding .35s;
+  }
+  header.nav.solid{
+    background:rgba(250,246,240,.92);backdrop-filter:blur(14px);
+    box-shadow:0 1px 0 rgba(59,42,33,.09);padding:.7rem 0;
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;gap:2rem}
+  .logo{display:flex;align-items:center;gap:.65rem;font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;letter-spacing:-.02em}
+  .logo-mark{width:38px;height:38px;flex:0 0 38px}
+  .nav-links{display:flex;gap:2.1rem;align-items:center;font-size:.92rem;font-weight:500}
+  .nav-links a{position:relative;padding:.2rem 0;color:var(--texto-suave);transition:color .2s}
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;
+    background:var(--tostado);transition:width .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .nav-links a:hover{color:var(--cafe)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{padding:.7rem 1.5rem;font-size:.88rem}
+  .burger{display:none;background:none;border:0;flex-direction:column;gap:5px;padding:.4rem;cursor:pointer}
+  .burger span{width:24px;height:2px;background:var(--cafe);border-radius:2px;transition:.3s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;min-height:100svh;display:flex;align-items:center;
+    padding:8rem 0 5rem;overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;z-index:0;
+    background:
+      radial-gradient(ellipse 60% 50% at 78% 28%,rgba(200,155,92,.24),transparent 65%),
+      radial-gradient(ellipse 55% 60% at 12% 82%,rgba(169,113,75,.16),transparent 62%),
+      linear-gradient(160deg,var(--crema) 0%,var(--crema-2) 100%);
+  }
+  .hero-grid{
+    position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;
+    gap:4.5rem;align-items:center;
+  }
+  .hero h1{font-size:clamp(2.9rem,6vw,4.6rem);margin-bottom:1.4rem}
+  .hero h1 em{font-style:italic;color:var(--tostado)}
+  .hero p.lead{font-size:1.14rem;color:var(--texto-suave);max-width:46ch;margin-bottom:2.4rem;font-weight:300}
+  .hero-acciones{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:3rem}
+  .hero-datos{display:flex;gap:2.6rem;flex-wrap:wrap;padding-top:2rem;border-top:1px solid rgba(59,42,33,.12)}
+  .dato .n{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:var(--cafe);display:block;line-height:1}
+  .dato .t{font-size:.82rem;color:var(--texto-suave);letter-spacing:.04em}
+  .hero-art{position:relative}
+  .hero-art .marco{
+    border-radius:280px 280px var(--radio) var(--radio);overflow:hidden;
+    box-shadow:var(--sombra);background:var(--cafe-2);aspect-ratio:.82;
+  }
+  .badge-flotante{
+    position:absolute;bottom:5%;left:-6%;background:var(--blanco);
+    padding:1.05rem 1.4rem;border-radius:16px;box-shadow:var(--sombra);
+    display:flex;align-items:center;gap:.85rem;animation:flota 5s ease-in-out infinite;
+  }
+  @keyframes flota{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+  .badge-flotante .estrellas{color:var(--dorado);font-size:.85rem;letter-spacing:2px}
+  .badge-flotante strong{display:block;font-size:.95rem}
+  .badge-flotante small{color:var(--texto-suave);font-size:.78rem}
+
+  /* ---------- SECCIONES ---------- */
+  section{padding:6.5rem 0}
+  .sec-head{max-width:640px;margin-bottom:3.5rem}
+  .sec-head.centro{margin-inline:auto;text-align:center}
+  .sec-head h2{font-size:clamp(2.1rem,4vw,3.1rem);margin-bottom:1rem}
+  .sec-head p{color:var(--texto-suave);font-size:1.05rem;font-weight:300}
+
+  /* ---------- VALORES ---------- */
+  .valores{background:var(--blanco)}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+  .valor{
+    padding:2.4rem 2rem;border-radius:var(--radio);background:var(--crema);
+    border:1px solid rgba(59,42,33,.07);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
+  }
+  .valor:hover{transform:translateY(-8px);box-shadow:var(--sombra)}
+  .valor .ico{
+    width:54px;height:54px;border-radius:14px;background:var(--cafe);
+    display:grid;place-items:center;margin-bottom:1.4rem;
+  }
+  .valor h3{font-size:1.28rem;margin-bottom:.6rem}
+  .valor p{color:var(--texto-suave);font-size:.96rem;font-weight:300}
+
+  /* ---------- MENU ---------- */
+  .menu-tabs{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+  .tab{
+    padding:.62rem 1.5rem;border-radius:100px;border:1.5px solid rgba(59,42,33,.16);
+    background:none;font:inherit;font-size:.9rem;font-weight:500;color:var(--texto-suave);
+    cursor:pointer;transition:.25s;
+  }
+  .tab:hover{border-color:var(--tostado);color:var(--cafe)}
+  .tab.activo{background:var(--cafe);border-color:var(--cafe);color:var(--crema)}
+  .menu-panel{display:none;animation:aparece .45s ease both}
+  .menu-panel.activo{display:grid;grid-template-columns:1fr 1fr;gap:1rem 3.5rem}
+  @keyframes aparece{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .item{
+    display:grid;grid-template-columns:1fr auto;gap:.4rem 1rem;align-items:baseline;
+    padding:1.15rem 0;border-bottom:1px dashed rgba(59,42,33,.16);
+  }
+  .item h4{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500}
+  .item .precio{font-family:'Fraunces',serif;font-weight:700;color:var(--tostado);font-size:1.05rem;white-space:nowrap}
+  .item p{grid-column:1/-1;font-size:.88rem;color:var(--texto-suave);font-weight:300;line-height:1.6}
+  .tag{
+    display:inline-block;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--crema-2);color:var(--tostado);padding:.18rem .55rem;border-radius:6px;
+    margin-left:.5rem;font-weight:600;vertical-align:middle;
+  }
+
+  /* ---------- HISTORIA ---------- */
+  .historia{background:var(--cafe);color:var(--crema);position:relative;overflow:hidden}
+  .historia::after{
+    content:'';position:absolute;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle,rgba(200,155,92,.16),transparent 68%);
+    top:-190px;right:-140px;
+  }
+  .historia-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:4.5rem;align-items:center;position:relative;z-index:1}
+  .historia h2{font-size:clamp(2.1rem,4vw,3.1rem);margin-bottom:1.4rem}
+  .historia p{color:rgba(250,246,240,.76);font-weight:300;margin-bottom:1.1rem}
+  .historia .eyebrow{color:var(--dorado)}
+  .historia-art{border-radius:var(--radio);overflow:hidden;box-shadow:0 30px 60px -25px rgba(0,0,0,.6);aspect-ratio:1.05}
+  .firma{font-family:'Fraunces',serif;font-style:italic;font-size:1.35rem;color:var(--dorado);margin-top:1.6rem}
+
+  /* ---------- GALERIA ---------- */
+  .galeria-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:1rem}
+  .g-item{border-radius:var(--radio);overflow:hidden;position:relative;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+  .g-item:hover{transform:scale(1.025)}
+  .g-item:nth-child(1){grid-column:span 2;grid-row:span 2}
+  .g-item:nth-child(4){grid-column:span 2}
+  .g-item svg{width:100%;height:100%}
+
+  /* ---------- RESEÑAS ---------- */
+  .resenas{background:var(--blanco)}
+  .resena{
+    background:var(--crema);padding:2.2rem;border-radius:var(--radio);
+    border:1px solid rgba(59,42,33,.07);display:flex;flex-direction:column;gap:1.1rem;
+  }
+  .resena .estrellas{color:var(--dorado);letter-spacing:3px;font-size:.9rem}
+  .resena blockquote{font-family:'Fraunces',serif;font-size:1.08rem;line-height:1.6;font-weight:300}
+  .autor{display:flex;align-items:center;gap:.85rem;margin-top:auto}
+  .avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:600;color:var(--crema);font-size:.95rem}
+  .autor strong{display:block;font-size:.92rem}
+  .autor small{color:var(--texto-suave);font-size:.8rem}
+
+  /* ---------- VISITANOS ---------- */
+  .visita-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+  .horarios{list-style:none}
+  .horarios li{
+    display:flex;justify-content:space-between;padding:.95rem 0;
+    border-bottom:1px solid rgba(59,42,33,.1);font-size:.98rem;
+  }
+  .horarios li span:last-child{color:var(--texto-suave);font-weight:300}
+  .horarios li.hoy{color:var(--tostado);font-weight:600}
+  .horarios li.hoy span:last-child{color:var(--tostado)}
+  .info-contacto{margin-top:2.2rem;display:flex;flex-direction:column;gap:1rem}
+  .linea{display:flex;align-items:center;gap:.9rem;font-size:.98rem}
+  .linea .ico-mini{
+    width:40px;height:40px;border-radius:11px;background:var(--crema-2);
+    display:grid;place-items:center;flex:0 0 40px;
+  }
+  .mapa{border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);aspect-ratio:1.1;background:var(--crema-2)}
+
+  /* ---------- CTA FINAL ---------- */
+  .cta-final{
+    background:linear-gradient(135deg,var(--tostado),var(--cafe-2));
+    color:var(--crema);text-align:center;
+  }
+  .cta-final h2{font-size:clamp(2.1rem,4.4vw,3.3rem);margin-bottom:1.1rem}
+  .cta-final p{max-width:52ch;margin:0 auto 2.4rem;color:rgba(250,246,240,.85);font-weight:300}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--cafe);color:rgba(250,246,240,.6);padding:4.5rem 0 2rem;font-size:.9rem}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:3rem}
+  footer h4{color:var(--crema);font-family:'Inter',sans-serif;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:1.2rem;font-weight:600}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+  footer a:hover{color:var(--dorado)}
+  .foot-logo{display:flex;align-items:center;gap:.65rem;font-family:'Fraunces',serif;font-size:1.25rem;color:var(--crema);font-weight:700;margin-bottom:1rem}
+  .foot-bottom{
+    border-top:1px solid rgba(250,246,240,.12);padding-top:1.8rem;
+    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.83rem;
+  }
+  .redes{display:flex;gap:.7rem}
+  .red{width:38px;height:38px;border-radius:10px;background:rgba(250,246,240,.08);display:grid;place-items:center;transition:.25s}
+  .red:hover{background:var(--dorado);transform:translateY(-3px)}
+
+  /* ---------- WHATSAPP FLOTANTE ---------- */
+  .wsp{
+    position:fixed;right:22px;bottom:22px;z-index:90;
+    width:58px;height:58px;border-radius:50%;background:#25D366;
+    display:grid;place-items:center;box-shadow:0 12px 28px -8px rgba(37,211,102,.6);
+    transition:transform .25s;
+  }
+  .wsp:hover{transform:scale(1.09)}
+
+  /* ---------- ANIMACION SCROLL ---------- */
+  .rev{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+  .rev.visible{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .rev{opacity:1;transform:none;transition:none}
+    .badge-flotante{animation:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:960px){
+    .hero-grid,.historia-grid,.visita-grid{grid-template-columns:1fr;gap:3rem}
+    .hero-art{order:-1;max-width:420px;margin-inline:auto}
+    .grid-3{grid-template-columns:1fr}
+    .menu-panel.activo{grid-template-columns:1fr;gap:0}
+    .galeria-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:2rem}
+    .nav-links{
+      position:fixed;inset:0 0 auto 0;top:0;padding:6rem 2rem 2.5rem;
+      background:var(--crema);flex-direction:column;align-items:flex-start;gap:1.4rem;
+      font-size:1.25rem;transform:translateY(-105%);transition:transform .4s cubic-bezier(.2,.8,.2,1);
+      box-shadow:0 20px 40px -20px rgba(59,42,33,.3);
+    }
+    .nav-links.abierto{transform:none}
+    .nav-links a{color:var(--cafe)}
+    .burger{display:flex}
+    .nav-cta{display:none}
+    section{padding:4.5rem 0}
+    .badge-flotante{left:auto;right:-4%}
+  }
+  @media(max-width:560px){
+    .galeria-grid{grid-template-columns:1fr;grid-auto-rows:200px}
+    .g-item:nth-child(1),.g-item:nth-child(4){grid-column:span 1;grid-row:span 1}
+    .foot-grid{grid-template-columns:1fr}
+    .hero-datos{gap:1.8rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a href="#" class="logo">
+      <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="20" fill="#3B2A21"/>
+        <path d="M11 15h14v8a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6v-8Z" fill="#C89B5C"/>
+        <path d="M25 17h2.5a3.5 3.5 0 0 1 0 7H25" stroke="#C89B5C" stroke-width="2" fill="none"/>
+        <path d="M15 8.5c0 1.5 1.5 1.8 1.5 3.3M20 8c0 1.5 1.5 1.8 1.5 3.3" stroke="#FAF6F0" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      Café Aurora
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#nosotros">Nosotros</a>
+      <a href="#menu">Menú</a>
+      <a href="#galeria">Galería</a>
+      <a href="#resenas">Reseñas</a>
+      <a href="#visitanos">Visitanos</a>
+    </nav>
+    <a href="#visitanos" class="btn btn-primario nav-cta">Reservar mesa</a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Café de especialidad · Córdoba</span>
+      <h1>Cada taza empieza<br>con un <em>grano elegido</em><br>a mano.</h1>
+      <p class="lead">Tostamos nuestro propio café en el local, horneamos todos los días antes de abrir y servimos en un espacio pensado para que te quedes un rato largo.</p>
+      <div class="hero-acciones">
+        <a href="#menu" class="btn btn-primario">Ver el menú</a>
+        <a href="#visitanos" class="btn btn-borde">Cómo llegar</a>
+      </div>
+      <div class="hero-datos">
+        <div class="dato"><span class="n">12</span><span class="t">Años tostando</span></div>
+        <div class="dato"><span class="n">4.8</span><span class="t">Puntaje en Google</span></div>
+        <div class="dato"><span class="n">100%</span><span class="t">Grano de origen</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="marco">
+        <svg viewBox="0 0 400 490" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="cg1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#5C4432"/><stop offset="100%" stop-color="#2A1D16"/>
+            </linearGradient>
+            <radialGradient id="cg2" cx="50%" cy="38%" r="46%">
+              <stop offset="0%" stop-color="#C89B5C" stop-opacity=".38"/>
+              <stop offset="100%" stop-color="#C89B5C" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="490" fill="url(#cg1)"/>
+          <rect width="400" height="490" fill="url(#cg2)"/>
+          <ellipse cx="200" cy="392" rx="118" ry="17" fill="#1B120D" opacity=".45"/>
+          <path d="M126 232h148v82c0 40-33 72-74 72s-74-32-74-72v-82Z" fill="#FAF6F0"/>
+          <path d="M126 232h148v20c0 8-33 15-74 15s-74-7-74-15v-20Z" fill="#E8DDCE"/>
+          <ellipse cx="200" cy="232" rx="74" ry="17" fill="#6B4A32"/>
+          <ellipse cx="200" cy="230" rx="62" ry="13" fill="#8A5F3E"/>
+          <path d="M170 228c8-6 20-6 28 0s20 6 30 0" stroke="#C89B5C" stroke-width="3" fill="none" opacity=".8" stroke-linecap="round"/>
+          <path d="M274 258h22a30 30 0 0 1 0 60h-22" stroke="#FAF6F0" stroke-width="13" fill="none" stroke-linecap="round"/>
+          <g opacity=".55" stroke="#FAF6F0" stroke-width="4" fill="none" stroke-linecap="round">
+            <path d="M172 196c0-16 14-18 14-34s-14-18-14-30"/>
+            <path d="M202 190c0-16 14-18 14-34s-14-18-14-30"/>
+            <path d="M232 196c0-16 14-18 14-34s-14-18-14-30"/>
+          </g>
+          <g fill="#3B2A21" opacity=".85">
+            <ellipse cx="72" cy="432" rx="15" ry="10" transform="rotate(-24 72 432)"/>
+            <ellipse cx="108" cy="452" rx="15" ry="10" transform="rotate(16 108 452)"/>
+            <ellipse cx="322" cy="440" rx="15" ry="10" transform="rotate(38 322 440)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="badge-flotante">
+        <div>
+          <div class="estrellas">★★★★★</div>
+          <strong>4.8 de 5</strong>
+          <small>sobre 340 reseñas</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VALORES ============ -->
+<section class="valores" id="nosotros">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <span class="eyebrow">Por qué Aurora</span>
+      <h2>Café hecho con tiempo, no con apuro</h2>
+      <p>No somos una cadena. Somos seis personas que se levantan temprano para que tu primer café del día valga la pena.</p>
+    </div>
+    <div class="grid-3">
+      <div class="valor rev">
+        <div class="ico">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C89B5C" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 8h12v7a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z"/>
+            <path d="M16 10h2.5a2.5 2.5 0 0 1 0 5H16"/>
+            <path d="M7 3c0 1.2 1 1.4 1 2.5M11 2.5c0 1.2 1 1.4 1 2.5"/>
+          </svg>
+        </div>
+        <h3>Tostado propio</h3>
+        <p>Tostamos en el local cada semana en lotes chicos. Vos tomás café que salió del tostador hace días, no hace meses.</p>
+      </div>
+      <div class="valor rev">
+        <div class="ico">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C89B5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2.5c3.5 2.5 5.5 5.5 5.5 9a5.5 5.5 0 0 1-11 0c0-3.5 2-6.5 5.5-9Z"/>
+            <path d="M12 21.5v-6"/>
+          </svg>
+        </div>
+        <h3>Panadería del día</h3>
+        <p>Medialunas, budines y tartas hechas esa misma mañana. Lo que no se vende, se dona. Nunca guardamos para mañana.</p>
+      </div>
+      <div class="valor rev">
+        <div class="ico">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C89B5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+            <circle cx="9" cy="7" r="3.2"/>
+            <path d="M16.5 20v-1.6a3.6 3.6 0 0 0-2.4-3.4M15 4.3a3.2 3.2 0 0 1 0 5.9"/>
+          </svg>
+        </div>
+        <h3>Espacio para quedarse</h3>
+        <p>Wi-Fi rápido, enchufes en todas las mesas y nadie te va a apurar. Vení a trabajar, a leer o a no hacer nada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MENU ============ -->
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <span class="eyebrow">La carta</span>
+      <h2>Nuestro menú</h2>
+      <p>Cambia según la temporada y según lo que encontramos en la feria. Esto es lo que hay esta semana.</p>
+    </div>
+    <div class="menu-tabs rev">
+      <button class="tab activo" data-panel="cafe">Café</button>
+      <button class="tab" data-panel="brunch">Brunch</button>
+      <button class="tab" data-panel="pasteleria">Pastelería</button>
+      <button class="tab" data-panel="frios">Fríos</button>
+    </div>
+
+    <div class="menu-panel activo rev" id="cafe">
+      <div class="item"><h4>Espresso</h4><span class="precio">$1.800</span><p>Doble ristretto de nuestro blend de casa. Notas a chocolate amargo y nuez.</p></div>
+      <div class="item"><h4>Flat White<span class="tag">Más pedido</span></h4><span class="precio">$3.200</span><p>Doble shot con leche texturizada. El balance justo entre café y cremosidad.</p></div>
+      <div class="item"><h4>Cappuccino</h4><span class="precio">$3.000</span><p>Clásico italiano con espuma densa y una pizca de cacao amargo por encima.</p></div>
+      <div class="item"><h4>Latte de especialidad</h4><span class="precio">$3.400</span><p>Con opción de vainilla de Madagascar, caramelo salado o pistacho.</p></div>
+      <div class="item"><h4>V60 de origen<span class="tag">De autor</span></h4><span class="precio">$4.200</span><p>Método de filtrado lento. Grano rotativo de finca única: preguntá cuál hay hoy.</p></div>
+      <div class="item"><h4>Cortado</h4><span class="precio">$2.400</span><p>Espresso cortado con un toque de leche caliente. Simple y directo.</p></div>
+    </div>
+
+    <div class="menu-panel rev" id="brunch">
+      <div class="item"><h4>Aurora Completo<span class="tag">Para dos</span></h4><span class="precio">$14.500</span><p>Dos huevos revueltos, palta, tomate asado, panceta crocante, pan de masa madre y dos cafés.</p></div>
+      <div class="item"><h4>Tostada de palta</h4><span class="precio">$7.900</span><p>Masa madre, palta, huevo poché, semillas y un toque de limón y chili.</p></div>
+      <div class="item"><h4>Huevos Benedictinos</h4><span class="precio">$9.200</span><p>Sobre muffin inglés con jamón crudo y salsa holandesa hecha al momento.</p></div>
+      <div class="item"><h4>Bowl de yogur y granola</h4><span class="precio">$6.400</span><p>Yogur natural, granola casera, frutas de estación y miel de la sierra.</p></div>
+      <div class="item"><h4>Sándwich de pollo</h4><span class="precio">$8.700</span><p>Pollo marinado, rúcula, tomate confitado y mayonesa de hierbas en pan de campo.</p></div>
+      <div class="item"><h4>Omelette de estación</h4><span class="precio">$8.100</span><p>Tres huevos con queso de cabra, espinaca y champiñones salteados.</p></div>
+    </div>
+
+    <div class="menu-panel rev" id="pasteleria">
+      <div class="item"><h4>Medialunas de manteca</h4><span class="precio">$1.400</span><p>Hechas cada mañana con manteca de verdad. Por unidad, o media docena con descuento.</p></div>
+      <div class="item"><h4>Cheesecake de frutos rojos<span class="tag">Favorito</span></h4><span class="precio">$5.600</span><p>Base de galleta artesanal, relleno cremoso y coulis de frutos rojos frescos.</p></div>
+      <div class="item"><h4>Budín de limón</h4><span class="precio">$4.200</span><p>Húmedo, con glaseado cítrico y ralladura fresca. Se vende entero también.</p></div>
+      <div class="item"><h4>Alfajor de maicena XL</h4><span class="precio">$2.900</span><p>Dulce de leche repostero y coco rallado. El de la abuela, pero más grande.</p></div>
+      <div class="item"><h4>Brownie con nuez</h4><span class="precio">$4.800</span><p>Chocolate 70%, centro húmedo, nueces enteras. Servido tibio si lo pedís.</p></div>
+      <div class="item"><h4>Croissant relleno</h4><span class="precio">$5.100</span><p>De jamón y queso o de almendras. Preguntá cuál salió del horno recién.</p></div>
+    </div>
+
+    <div class="menu-panel rev" id="frios">
+      <div class="item"><h4>Cold Brew<span class="tag">24 hs</span></h4><span class="precio">$4.000</span><p>Extraído en frío durante 24 horas. Suave, dulce natural y con mucha cafeína.</p></div>
+      <div class="item"><h4>Iced Latte</h4><span class="precio">$3.800</span><p>Espresso doble sobre hielo con leche fría. Con opción de leche vegetal.</p></div>
+      <div class="item"><h4>Limonada de jengibre</h4><span class="precio">$3.500</span><p>Exprimida al momento, con jengibre fresco y menta de nuestra huerta.</p></div>
+      <div class="item"><h4>Licuado de estación</h4><span class="precio">$4.400</span><p>Con la fruta que haya esa semana. Con agua, leche o bebida de almendras.</p></div>
+      <div class="item"><h4>Affogato</h4><span class="precio">$5.200</span><p>Helado de crema americana ahogado en un espresso doble bien caliente.</p></div>
+      <div class="item"><h4>Té helado de durazno</h4><span class="precio">$3.300</span><p>Infusión en frío de té negro con duraznos macerados. Sin azúcar agregada.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HISTORIA ============ -->
+<section class="historia">
+  <div class="wrap historia-grid">
+    <div class="historia-art rev">
+      <svg viewBox="0 0 420 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#8A5F3E"/><stop offset="100%" stop-color="#3B2A21"/>
+          </linearGradient>
+        </defs>
+        <rect width="420" height="400" fill="url(#hg1)"/>
+        <circle cx="330" cy="80" r="120" fill="#C89B5C" opacity=".14"/>
+        <rect x="60" y="140" width="300" height="180" rx="10" fill="#2A1D16" opacity=".55"/>
+        <rect x="84" y="164" width="120" height="132" rx="7" fill="#C89B5C" opacity=".28"/>
+        <circle cx="144" cy="230" r="40" fill="#1B120D" opacity=".55"/>
+        <circle cx="144" cy="230" r="26" fill="#C89B5C" opacity=".38"/>
+        <rect x="228" y="164" width="108" height="18" rx="9" fill="#FAF6F0" opacity=".22"/>
+        <rect x="228" y="196" width="80" height="12" rx="6" fill="#FAF6F0" opacity=".16"/>
+        <rect x="228" y="222" width="94" height="12" rx="6" fill="#FAF6F0" opacity=".16"/>
+        <g fill="#FAF6F0" opacity=".2">
+          <rect x="228" y="256" width="30" height="40" rx="5"/>
+          <rect x="266" y="252" width="30" height="44" rx="5"/>
+          <rect x="304" y="260" width="30" height="36" rx="5"/>
+        </g>
+        <path d="M0 340h420v60H0z" fill="#1B120D" opacity=".45"/>
+      </svg>
+    </div>
+    <div class="rev">
+      <span class="eyebrow">Nuestra historia</span>
+      <h2>Empezamos con una tostadora prestada</h2>
+      <p>En 2013 alquilamos un local chico en Güemes con la idea de tostar nuestro propio café. No teníamos plata para una tostadora, así que nos prestaron una que andaba a medias y aprendimos a los golpes.</p>
+      <p>Doce años después seguimos en el mismo barrio, con el mismo criterio: comprar bien el grano, tostarlo poco antes de venderlo y no servir nada que no tomaríamos nosotros.</p>
+      <p>Hoy trabajamos con tres fincas de Colombia y Brasil a las que les compramos directo, sin intermediarios. Si te interesa el tema, preguntale a quien te atienda: le encanta hablar de eso.</p>
+      <div class="firma">— Familia Ríos, dueños</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALERIA ============ -->
+<section id="galeria">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <span class="eyebrow">El lugar</span>
+      <h2>Así se ve Aurora por dentro</h2>
+      <p>Luz natural, madera y plantas. Un lugar para quedarse, no para pasar corriendo.</p>
+    </div>
+    <div class="galeria-grid rev">
+      <div class="g-item">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs><linearGradient id="ga1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#C89B5C"/><stop offset="100%" stop-color="#8A5F3E"/></linearGradient></defs>
+          <rect width="400" height="400" fill="url(#ga1)"/>
+          <circle cx="200" cy="180" r="96" fill="#FAF6F0" opacity=".18"/>
+          <path d="M132 158h136v76a34 34 0 0 1-34 34h-68a34 34 0 0 1-34-34v-76Z" fill="#FAF6F0" opacity=".9"/>
+          <ellipse cx="200" cy="158" rx="68" ry="16" fill="#5C4432"/>
+          <path d="M268 176h20a26 26 0 0 1 0 52h-20" stroke="#FAF6F0" stroke-width="12" fill="none" opacity=".9"/>
+          <rect y="316" width="400" height="84" fill="#3B2A21" opacity=".35"/>
+        </svg>
+      </div>
+      <div class="g-item">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="300" height="220" fill="#5C4432"/>
+          <circle cx="230" cy="40" r="70" fill="#C89B5C" opacity=".22"/>
+          <g fill="#FAF6F0" opacity=".85">
+            <path d="M60 90c0-14 12-24 30-24s30 10 30 24l-6 60H66l-6-60Z"/>
+            <path d="M150 104c0-12 10-20 25-20s25 8 25 20l-5 46h-40l-5-46Z" opacity=".75"/>
+          </g>
+          <rect y="176" width="300" height="44" fill="#3B2A21" opacity=".45"/>
+        </svg>
+      </div>
+      <div class="g-item">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="300" height="220" fill="#3B2A21"/>
+          <circle cx="80" cy="60" r="80" fill="#C89B5C" opacity=".18"/>
+          <circle cx="150" cy="110" r="52" fill="#FAF6F0" opacity=".8"/>
+          <circle cx="150" cy="110" r="38" fill="#8A5F3E"/>
+          <path d="M126 106q24-14 48 0M126 120q24-14 48 0" stroke="#C89B5C" stroke-width="4" fill="none"/>
+        </svg>
+      </div>
+      <div class="g-item">
+        <svg viewBox="0 0 600 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs><linearGradient id="ga2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8A5F3E"/><stop offset="100%" stop-color="#3B2A21"/></linearGradient></defs>
+          <rect width="600" height="220" fill="url(#ga2)"/>
+          <g fill="#FAF6F0" opacity=".22">
+            <rect x="40" y="60" width="90" height="120" rx="8"/>
+            <rect x="150" y="40" width="90" height="140" rx="8"/>
+            <rect x="260" y="70" width="90" height="110" rx="8"/>
+            <rect x="370" y="50" width="90" height="130" rx="8"/>
+            <rect x="480" y="76" width="90" height="104" rx="8"/>
+          </g>
+          <path d="M0 190h600v30H0z" fill="#1B120D" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="g-item">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="300" height="220" fill="#C89B5C"/>
+          <circle cx="150" cy="110" r="86" fill="#FAF6F0" opacity=".22"/>
+          <g stroke="#3B2A21" stroke-width="6" fill="none" opacity=".55" stroke-linecap="round">
+            <path d="M110 150c0-30 20-34 20-64s-20-30-20-52"/>
+            <path d="M150 150c0-30 20-34 20-64s-20-30-20-52"/>
+            <path d="M190 150c0-30 20-34 20-64s-20-30-20-52"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESEÑAS ============ -->
+<section class="resenas" id="resenas">
+  <div class="wrap">
+    <div class="sec-head centro rev">
+      <span class="eyebrow">Lo que dicen</span>
+      <h2>340 reseñas, 4.8 de promedio</h2>
+      <p>Estas son reales, de Google. No editamos ni las malas.</p>
+    </div>
+    <div class="grid-3">
+      <div class="resena rev">
+        <div class="estrellas">★★★★★</div>
+        <blockquote>"El mejor flat white que tomé en Córdoba, sin exagerar. Y el lugar es hermoso para trabajar un par de horas, tiene enchufes por todos lados."</blockquote>
+        <div class="autor">
+          <div class="avatar" style="background:#8A5F3E">MF</div>
+          <div><strong>Micaela F.</strong><small>Hace 2 semanas</small></div>
+        </div>
+      </div>
+      <div class="resena rev">
+        <div class="estrellas">★★★★★</div>
+        <blockquote>"Vengo cada sábado con mi hija por las medialunas. Se nota que las hacen ahí mismo. La atención es de otro nivel, te tratan por el nombre."</blockquote>
+        <div class="autor">
+          <div class="avatar" style="background:#C89B5C">RG</div>
+          <div><strong>Roberto G.</strong><small>Hace 1 mes</small></div>
+        </div>
+      </div>
+      <div class="resena rev">
+        <div class="estrellas">★★★★★</div>
+        <blockquote>"Pedí el V60 y el chico me explicó todo el origen del grano con una paciencia infinita. Se nota que les gusta lo que hacen. Vuelvo seguro."</blockquote>
+        <div class="autor">
+          <div class="avatar" style="background:#5C4432">LP</div>
+          <div><strong>Lucía P.</strong><small>Hace 1 mes</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISITANOS ============ -->
+<section id="visitanos">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="eyebrow">Visitanos</span>
+      <h2>Estamos en Güemes</h2>
+      <p>A media cuadra del Paseo de las Artes. Con estacionamiento medido en la puerta.</p>
+    </div>
+    <div class="visita-grid">
+      <div class="rev">
+        <ul class="horarios">
+          <li><span>Lunes a Jueves</span><span>07:30 — 20:00</span></li>
+          <li><span>Viernes</span><span>07:30 — 22:00</span></li>
+          <li class="hoy"><span>Sábado · Hoy</span><span>08:30 — 22:00</span></li>
+          <li><span>Domingo</span><span>09:00 — 19:00</span></li>
+          <li><span>Feriados</span><span>09:00 — 18:00</span></li>
+        </ul>
+        <div class="info-contacto">
+          <div class="linea">
+            <div class="ico-mini">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#A9714B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 10.5c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10.2" r="2.8"/>
+              </svg>
+            </div>
+            <div>Belgrano 742, Güemes — Córdoba Capital</div>
+          </div>
+          <div class="linea">
+            <div class="ico-mini">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#A9714B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21.5 16.9v2.6a2 2 0 0 1-2.2 2 19.6 19.6 0 0 1-8.5-3 19.3 19.3 0 0 1-6-6 19.6 19.6 0 0 1-3-8.6 2 2 0 0 1 2-2.2h2.6a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1l-1.1 1.1a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/>
+              </svg>
+            </div>
+            <div>+54 351 422-7872</div>
+          </div>
+          <div class="linea">
+            <div class="ico-mini">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#A9714B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 6.5 9 6.5 9-6.5"/>
+              </svg>
+            </div>
+            <div>hola@cafeaurora.com.ar</div>
+          </div>
+        </div>
+        <div style="margin-top:2rem;display:flex;gap:.8rem;flex-wrap:wrap">
+          <a href="#" class="btn btn-primario">Reservar por WhatsApp</a>
+          <a href="#" class="btn btn-borde">Abrir en Google Maps</a>
+        </div>
+      </div>
+      <div class="mapa rev">
+        <svg viewBox="0 0 400 364" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="364" fill="#EFE6D8"/>
+          <g stroke="#DDCFBB" stroke-width="16" fill="none">
+            <path d="M-10 90h420M-10 220h420M-10 300h420M90 -10v384M240 -10v384M330 -10v384"/>
+          </g>
+          <g fill="#E4D8C6">
+            <rect x="106" y="106" width="118" height="98" rx="4"/>
+            <rect x="256" y="106" width="58" height="98" rx="4"/>
+            <rect x="256" y="236" width="58" height="48" rx="4"/>
+            <rect x="8" y="106" width="66" height="98" rx="4"/>
+          </g>
+          <rect x="106" y="236" width="118" height="48" rx="4" fill="#CFE0C4"/>
+          <circle cx="200" cy="160" r="26" fill="#A9714B" opacity=".18"/>
+          <path d="M200 132a15 15 0 0 0-15 15c0 11 15 25 15 25s15-14 15-25a15 15 0 0 0-15-15Z" fill="#A9714B"/>
+          <circle cx="200" cy="147" r="5.4" fill="#FAF6F0"/>
+          <text x="200" y="200" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#5C4432">Café Aurora</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="cta-final">
+  <div class="wrap rev">
+    <h2>Te esperamos mañana temprano</h2>
+    <p>Abrimos a las 7:30 con el horno recién prendido. Si venís antes de las 9, las medialunas todavía están calientes.</p>
+    <a href="#" class="btn btn-claro">Escribinos por WhatsApp</a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">
+          <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="20" fill="#C89B5C"/>
+            <path d="M11 15h14v8a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6v-8Z" fill="#3B2A21"/>
+            <path d="M25 17h2.5a3.5 3.5 0 0 1 0 7H25" stroke="#3B2A21" stroke-width="2" fill="none"/>
+          </svg>
+          Café Aurora
+        </div>
+        <p style="max-width:34ch">Café de especialidad tostado en Córdoba desde 2013. Grano de origen, pastelería del día y buena charla.</p>
+        <div class="redes" style="margin-top:1.4rem">
+          <a href="#" class="red" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FAF6F0" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="#FAF6F0" stroke="none"/></svg>
+          </a>
+          <a href="#" class="red" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FAF6F0" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.29-.04-1.27-.13-2.41-.13-2.39 0-4.02 1.46-4.02 4.13V9.9H7.5V13h2.77v8h3.23Z"/></svg>
+          </a>
+          <a href="#" class="red" aria-label="WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FAF6F0" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.26A10 10 0 1 0 12 2Zm5.5 14.1c-.24.66-1.4 1.28-1.93 1.32-.5.05-1.13.07-1.82-.11a15.6 15.6 0 0 1-6.5-5.15c-.5-.67-1.15-1.79-1.15-2.94 0-1.15.6-1.71.82-1.95a.86.86 0 0 1 .62-.29h.44c.15 0 .34-.05.53.4l.73 1.77c.06.12.1.26.02.42l-.28.44-.4.44c-.13.13-.26.27-.11.53.15.25.66 1.09 1.42 1.77.98.87 1.8 1.14 2.05 1.27.25.13.4.11.55-.07l.79-.92c.18-.22.36-.18.6-.09l1.7.8c.25.13.42.19.48.29.06.1.06.6-.18 1.27Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#menu">Menú</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#resenas">Reseñas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Horarios</h4>
+        <ul>
+          <li>Lun a Jue · 7:30–20:00</li>
+          <li>Viernes · 7:30–22:00</li>
+          <li>Sábado · 8:30–22:00</li>
+          <li>Domingo · 9:00–19:00</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li>Belgrano 742, Güemes</li>
+          <li>Córdoba Capital</li>
+          <li>+54 351 422-7872</li>
+          <li>hola@cafeaurora.com.ar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Café Aurora. Todos los derechos reservados.</div>
+      <div>Sitio de demostración · Diseño y desarrollo web</div>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="wsp" aria-label="Escribinos por WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.26A10 10 0 1 0 12 2Zm5.5 14.1c-.24.66-1.4 1.28-1.93 1.32-.5.05-1.13.07-1.82-.11a15.6 15.6 0 0 1-6.5-5.15c-.5-.67-1.15-1.79-1.15-2.94 0-1.15.6-1.71.82-1.95a.86.86 0 0 1 .62-.29h.44c.15 0 .34-.05.53.4l.73 1.77c.06.12.1.26.02.42l-.28.44-.4.44c-.13.13-.26.27-.11.53.15.25.66 1.09 1.42 1.77.98.87 1.8 1.14 2.05 1.27.25.13.4.11.55-.07l.79-.92c.18-.22.36-.18.6-.09l1.7.8c.25.13.42.19.48.29.06.1.06.6-.18 1.27Z"/></svg>
+</a>
+
+<script>
+  // Nav sólido al hacer scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('solid', window.scrollY > 40);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Menú mobile
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    const abierto = menu.classList.toggle('abierto');
+    burger.classList.toggle('open', abierto);
+    burger.setAttribute('aria-expanded', abierto);
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    menu.classList.remove('abierto');
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Tabs del menú
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('activo'));
+      document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('activo'));
+      tab.classList.add('activo');
+      const panel = document.getElementById(tab.dataset.panel);
+      panel.classList.add('activo');
+      panel.classList.add('visible');
+    });
+  });
+
+  // Animación al hacer scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rev').forEach((el,i) => {
+    el.style.transitionDelay = (i % 3) * 90 + 'ms';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
